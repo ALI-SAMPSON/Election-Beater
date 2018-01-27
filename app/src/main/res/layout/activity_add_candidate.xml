@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nestedScrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".activities.AddCandidateActivity">
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="1dp"/>
+
+        <!--Caption showing the admin to add a candidate-->
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/textViewLinkRegister"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:text="Add a Candidate"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:onClick="onLoginActivityLinkClick"/>
+
+        <!--TextInputLayout for Full Name-->
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/textInputLayoutFullName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="10dp">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/textInputEditTextFullName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_full_name"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                android:textColor="@color/text_color"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <!--TextInputLayout and LinearLayout for Candidate's Level-->
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/textInputLayoutLevel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="10dp"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="match_parent">
+                <!--TextView View  and Spinner View for Candidate's Level-->
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/textViewLevel"
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:text="@string/text_level"
+                    android:textSize="19sp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginTop="4dp"/>
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/spinnerLevel"
+                    android:layout_width="150dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="65dp"
+                    android:layout_marginRight="10dp"/>
+            </LinearLayout>
+        </android.support.design.widget.TextInputLayout>
+
+        <!--TextInputLayout and LinearLayout for Candidate's Programme-->
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/textInputLayoutProgramme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="match_parent">
+                <!--TextView View  and Spinner View for Candidate's Programme-->
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/textViewProgramme"
+                    android:layout_width="105dp"
+                    android:layout_height="40dp"
+                    android:text="@string/text_programme"
+                    android:textSize="19sp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginTop="4dp"/>
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/spinnerProgramme"
+                    android:layout_width="150dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="10dp"/>
+            </LinearLayout>
+        </android.support.design.widget.TextInputLayout>
+
+        <!--TextInputLayout and LinearLayout for Candidate's Portfolio-->
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/textInputLayoutPortfolio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="match_parent">
+                <!--TextView View  and Spinner View for Candidate's Portfolio-->
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/textViewPortfolio"
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:text="@string/text_portfolio"
+                    android:textSize="19sp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginTop="4dp"/>
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/spinnerPortfolio"
+                    android:layout_width="150dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="65dp"
+                    android:layout_marginRight="10dp"/>
+            </LinearLayout>
+        </android.support.design.widget.TextInputLayout>
+
+        <!--TextInputLayout for Candidate ID-->
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/textInputLayoutCandidateID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_marginLeft="10dp">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/textInputEditTextCandidateID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_person_outline_black_24dp"
+                android:hint="@string/hint_id"
+                android:textColorHint="@color/edit_text_color"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textColor="@color/text_color"/>
+        </android.support.design.widget.TextInputLayout>
+
+      <!--  <ImageView
+            android:id="@+id/imageViewCandidate"
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"/> -->
+
+        <!--Button for Sign Up-->
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/appCompatButtonLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/round_corner_button"
+            android:text="@string/add_candidate"
+            android:textColor="@color/colorText"
+            android:onClick="OnAddCandidateButtonClick"/>
+
+        <!--Link to skip to view voted candidates-->
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/textViewLinkViewResults"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="15dp"
+            android:text="@string/text_view_results"
+            android:textSize="18sp"
+            android:onClick="onViewResultsTextViewLinkClick"/>
+
+
+    </android.support.v7.widget.LinearLayoutCompat>
+
+</android.support.v4.widget.NestedScrollView>

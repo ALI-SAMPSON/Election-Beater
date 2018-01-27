@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">Election Beater</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_full_name">Full Name:</string>
+    <string name="hint_gender">Gender</string>
+    <string name="hint_level">Level</string>
+    <string name="hint_programme">Programme</string>
+    <string name="hint_id">ID:</string>
+    <string name="hint_student_id">Student ID</string>
+    <string name="hint_admin_id">Admin ID</string>
+    <string name="hint_pin">Pin</string>
+    <string name="hint_confirm_pin">Confirm Pin</string>
+    <string name="hint_portfolio">Portfolio</string>
+    <string name="add_candidate">Register Candidate</string>
+    <string name="text_level">Level:</string>
+    <string name="text_gender">Gender:</string>
+    <string name="text_programme">Programme:</string>
+    <string name="text_portfolio">Portfolio:</string>
+    <string name="text_login">Login</string>
+    <string name="text_sign_up">Sign Up</string>
+    <string name="text_register">Register</string>
+    <string name="error_message_full_name">Enter Full Name</string>
+    <string name="error_message_student_id">Enter Valid Student ID</string>
+    <string name="error_message_admin_id">Enter Valid Admin ID</string>
+    <string name="error_message_age">Enter Age</string>
+    <string name="error_message_password">Enter Pin</string>
+    <string name="success_message">Registration Successful</string>
+    <string name="text_not_voter">Not a voter yet? Register </string>
+    <string name="text_already_voter">Already a Voter? Login</string>
+    <string name="text_already_admin">Already an Admin? Login</string>
+    <string name="text_view_results">>>>skip to view results</string>
+    <string name="error_id_exists">Student ID Already Exist</string>
+    <string name="error_pin_match">Pin does not match</string>
+    <string name="error_valid_id_pin">Invalid Student ID or Pin</string>
+
+</resources>
