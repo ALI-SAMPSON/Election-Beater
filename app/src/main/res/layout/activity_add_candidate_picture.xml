@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_add_candidate_picture"
     android:layout_width="match_parent"
@@ -10,4 +11,27 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.icode.voteme.activities.AddCandidatePictureActivity">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/round_corner_edittext"
+        android:id="@+id/imageView"
+        android:minHeight="200dp"
+        android:minWidth="200dp"
+        android:layout_above="@+id/ButtonPic"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp" />
+
+    <Button
+        android:text="TAKE PICTURE"
+        android:textAlignment="center"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="103dp"
+        android:id="@+id/buttonCapture"
+        android:drawableTop="@drawable/ic_camera_alt_black_24dp"
+        android:background="@drawable/round_corner_button_candidate_pic"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="launchCamera"/>
 </RelativeLayout>

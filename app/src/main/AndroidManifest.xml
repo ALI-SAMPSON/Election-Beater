@@ -2,7 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.icode.voteme">
 
+    <!-- Gives the app the permission to access the Internet -->
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Gives the app the permission to access the Camera -->
+    <uses-feature android:name="android.hardware.camera" android:required="true"/>
+
 
     <application
         android:allowBackup="true"
