@@ -62,4 +62,10 @@ public class AddCandidatePictureActivity extends AppCompatActivity {
             imageView_Candidate.setImageBitmap(candidate_picture);
         }
     }
+
+    //Open an activity to View Results from voting
+    public void onViewResultsTextViewLinkClick(View view){
+        //Open activity results
+    }
+
 }

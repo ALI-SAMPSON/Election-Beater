@@ -1,5 +1,6 @@
 package com.example.icode.voteme.activities;
 
+import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -65,7 +66,7 @@ public class AddCandidateActivity extends AppCompatActivity {
     }
 
     //Method to add a new candidate when button is clicked...
-    public void OnAddCandidateButtonClick(View view){
+  /*  public void onAddCandidateButtonClick(View view){
         //getting text from the textInputEditText field and Spinner View
         String full_name = textInputEditText_full_name.getText().toString().trim();
         String level = spinnerLevel.getSelectedItem().toString().trim();
@@ -108,18 +109,47 @@ public class AddCandidateActivity extends AppCompatActivity {
             clearTextFields();      //call to the clearTextFields
         }
 
+    }*/
+
+    //Moves Admin to next activity to continue with the registration process
+    public void onNextButtonClick(View view){
+        Intent intentNext = new Intent(AddCandidateActivity.this,AddCandidatePictureActivity.class);
+        startActivity(intentNext);
     }
+
+    //Clear textfields when clicked
+    public void onCancelButtonClick(View view){
+        textInputEditText_full_name.setText("");
+        textInputEditText_candidate_id.setText("");
+        //call to Method
+        clearSpinnerValues();
+
+    }
+
+    //Resets values in the spinner views
+    public void clearSpinnerValues(){
+        //Resets adapter and spinner values for Candidate Level to Default
+        adapterLevel = ArrayAdapter.createFromResource(this,R.array.candidate_level,android.R.layout.simple_spinner_item);
+        adapterLevel.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerLevel.setAdapter(adapterLevel);
+
+        //Resets adapter and spinner values for Candidate Program to Default
+        adapterProgramme = ArrayAdapter.createFromResource(this,R.array.candidate_programme,android.R.layout.simple_spinner_item);
+        adapterProgramme.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerProgramme.setAdapter(adapterProgramme);
+
+        //Resets adapter and spinner values for Candidate Portfolio to Default
+        adapterPortfolio = ArrayAdapter.createFromResource(this,R.array.candidate_portfolio,android.R.layout.simple_spinner_item);
+        adapterPortfolio.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerPortfolio.setAdapter(adapterLevel);
+    }
+
          //Method for Clearing all textfields after Login Button is Clicked
     public void clearTextFields(){
             //Clears all text from the EditText
         textInputEditText_full_name.setText("");
         textInputEditText_candidate_id.setText("");
 
-    }
-
-    public void onViewResultsTextViewLinkClick(View view){
-        //Creates and starts the intent to be opened when TextView is Clicked
-        //startActivity(new Intent(Add));
     }
 
 }
