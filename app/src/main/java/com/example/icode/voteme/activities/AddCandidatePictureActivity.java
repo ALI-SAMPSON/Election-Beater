@@ -49,12 +49,11 @@ public class AddCandidatePictureActivity extends AppCompatActivity {
         selectPicture();
     }
 
-    //selects picture from gallery
+    //method to handle the selection of picture from gallery
     private void selectPicture(){
         Intent intentPicture = new Intent();
         intentPicture.setType("images/*");
         intentPicture.setAction(intentPicture.ACTION_GET_CONTENT);
-
         startActivityForResult(intentPicture, REQUEST_IMAGE_SELECT);
     }
 
