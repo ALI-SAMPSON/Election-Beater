@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.media.Image;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,59 +14,68 @@ import android.widget.ImageView;
 
 import com.example.icode.voteme.R;
 
+import java.io.IOException;
+
 public class AddCandidatePictureActivity extends AppCompatActivity {
 
-    //identifies the intent on which the operation will be done
-    static final int REQUEST_IMAGE_CAPTURE = 1;
+    //An instance of the Button View Class
+    private Button buttonSelectImage;
 
     //An instance of the Button View Class
-    Button buttonCapture;
+    private Button buttonRegister;
 
     //An instance of the ImageView View Class
-    ImageView imageView_Candidate;
+    private ImageView imageView_Candidate;
+
+    private Bitmap bitmap;
+
+    //identifies the intent on which the operation will be done
+    private final int REQUEST_IMAGE_SELECT = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_candidate_picture);
 
-        buttonCapture = (Button)findViewById(R.id.buttonCapture);
+
+        buttonSelectImage = (Button)findViewById(R.id.buttonSelectImage);
+        buttonRegister = (Button)findViewById(R.id.buttonRegister);
         imageView_Candidate = (ImageView)findViewById(R.id.imageView);
 
-        // Disable button if candidate has no camera on his/her smartphone
-        if(!hasCamera()){
-            buttonCapture.setEnabled(false);
-        }
-
     }
 
-    //check if the candidate has camera on his/her smartphone
-    private boolean hasCamera(){
-        return getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY);
+    //select picture from gallery
+    public void onSelectPicture(View view){
+        selectPicture();
     }
 
-    //Launching the Camera
-    public void launchCamera(View view){
-        Intent intentImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        //Take a picture and pass results(Image Captured Details) along to OnActivityResults
-        startActivityForResult(intentImage,REQUEST_IMAGE_CAPTURE);
-    }
+    //selects picture from gallery
+    private void selectPicture(){
+        Intent intentPicture = new Intent();
+        intentPicture.setType("images/*");
+        intentPicture.setAction(intentPicture.ACTION_GET_CONTENT);
 
-    //Returning the image taken
+        startActivityForResult(intentPicture, REQUEST_IMAGE_SELECT);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK){
-            //Get the image
-            Bundle extras = data.getExtras();
-            Bitmap candidate_picture = (Bitmap) extras.get("data");
-            imageView_Candidate.setImageBitmap(candidate_picture);
+        if(requestCode == REQUEST_IMAGE_SELECT && resultCode == RESULT_OK && data!=null){
+            Uri path = data.getData();
+            try {
+                bitmap  = MediaStore.Images.Media.getBitmap(getContentResolver(),path);  //get Bitmap image from gallery
+                imageView_Candidate.setImageBitmap(bitmap);
+                imageView_Candidate.setVisibility(View.VISIBLE );
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
-    //Open an activity to View Results from voting
-    public void onViewResultsTextViewLinkClick(View view){
-        //Open activity results
+    //Registers candidate when clicked
+    public void onRegisterCandidate(View view){
+        
     }
 
 }

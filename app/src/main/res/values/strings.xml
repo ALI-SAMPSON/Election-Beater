@@ -30,7 +30,7 @@
     <string name="text_not_voter">Not a voter yet? Register </string>
     <string name="text_already_voter">Already a Voter? Login</string>
     <string name="text_already_admin">Already an Admin? Login</string>
-    <string name="text_view_results">>>>skip to view results</string>
+    <string name="text_view_results">>>>skip to view results>>></string>
     <string name="error_id_exists">Student ID Already Exist</string>
     <string name="error_pin_match">Pin does not match</string>
     <string name="error_valid_id_pin">Invalid Student ID or Pin</string>

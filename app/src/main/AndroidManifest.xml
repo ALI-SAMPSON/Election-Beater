@@ -5,9 +5,7 @@
     <!-- Gives the app the permission to access the Internet -->
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <!-- Gives the app the permission to access the Camera -->
-    <uses-feature android:name="android.hardware.camera" android:required="true"/>
-
+    <!-- Gives the app the permission to access the phone's gallery -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
 
