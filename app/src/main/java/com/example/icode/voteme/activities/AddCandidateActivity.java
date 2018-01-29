@@ -1,18 +1,26 @@
 package com.example.icode.voteme.activities;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatSpinner;
+import android.util.Base64;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.icode.voteme.R;
 import com.example.icode.voteme.inputValidation.InputValidationAddCandidate;
 import com.example.icode.voteme.inputValidation.InputValidationVoterRegister;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 public class AddCandidateActivity extends AppCompatActivity {
 
@@ -33,7 +41,19 @@ public class AddCandidateActivity extends AppCompatActivity {
     AppCompatSpinner spinnerPortfolio;
     ArrayAdapter<CharSequence> adapterPortfolio;
 
-        //ImageView imageView;
+    //An instance of the Button View Class
+    private Button buttonSelectImage;
+
+    //An instance of the Button View Class
+    private Button buttonRegister;
+
+    //An instance of the ImageView View Class
+    private ImageView imageView_Candidate;
+
+    private Bitmap bitmap;
+
+    //identifies the intent on which the operation will be done
+    private final int REQUEST_IMAGE_SELECT = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,18 +81,58 @@ public class AddCandidateActivity extends AppCompatActivity {
         adapterPortfolio.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerPortfolio.setAdapter(adapterPortfolio);
 
-            // imageView = (ImageView)findViewById(R.id.imageViewCandidate);
+        buttonSelectImage = (Button)findViewById(R.id.buttonSelectImage);
+        buttonRegister = (Button)findViewById(R.id.buttonRegister);
+        imageView_Candidate = (ImageView)findViewById(R.id.imageView);
 
     }
 
-    //Method to add a new candidate when button is clicked...
-  /*  public void onAddCandidateButtonClick(View view){
+    //select picture from gallery
+    public void onSelectPicture(View view){
+        selectPicture();
+    }
+
+    //method to handle the selection of picture from gallery
+    private void selectPicture(){
+        Intent intentPicture = new Intent();
+        intentPicture.setType("images/*");
+        intentPicture.setAction(intentPicture.ACTION_GET_CONTENT);
+        startActivityForResult(intentPicture, REQUEST_IMAGE_SELECT);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == REQUEST_IMAGE_SELECT && resultCode == RESULT_OK && data!=null){
+            Uri path = data.getData();
+            try {
+                bitmap  = MediaStore.Images.Media.getBitmap(getContentResolver(),path);  //get Bitmap image from gallery
+                imageView_Candidate.setImageBitmap(bitmap);
+                imageView_Candidate.setVisibility(View.VISIBLE );
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    //Converts image into string
+    private String imageToString(Bitmap bitmap){
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
+        byte[] imgBytes = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(imgBytes,Base64.DEFAULT);
+    }
+
+    //Registers candidate when clicked...
+    public void onRegisterCandidate(View view){
         //getting text from the textInputEditText field and Spinner View
         String full_name = textInputEditText_full_name.getText().toString().trim();
         String level = spinnerLevel.getSelectedItem().toString().trim();
         String programme = spinnerProgramme.getSelectedItem().toString().trim();
         String portfolio = spinnerPortfolio.getSelectedItem().toString().trim();
         String candidate_id = textInputEditText_candidate_id.getText().toString().trim();
+
+        String candidate_picture = imageToString(bitmap);
 
 
         String error_fill_text = "This field cannot be left blank";
@@ -104,26 +164,11 @@ public class AddCandidateActivity extends AppCompatActivity {
             //Creates an object of the InputValidationAddCandidate Class in this context
             InputValidationAddCandidate inputValidationAddCandidate = new InputValidationAddCandidate(this);
             //Executes the object of the InputValidationVoterRegister Class using the String variables
-            inputValidationAddCandidate.execute(type, full_name, level, programme, portfolio, candidate_id);
+            inputValidationAddCandidate.execute(type, full_name, level, programme, portfolio, candidate_id,candidate_picture);
 
-            clearTextFields();      //call to the clearTextFields
+            clearTextFields(); //call to the clearTextFields
+            clearSpinnerValues();
         }
-
-    }*/
-
-    //Moves Admin to next activity to continue with the registration process
-    public void onNextButtonClick(View view){
-        Intent intentNext = new Intent(AddCandidateActivity.this,AddCandidatePictureActivity.class);
-        startActivity(intentNext);
-    }
-
-    //Clear textfields when clicked
-    public void onCancelButtonClick(View view){
-        textInputEditText_full_name.setText("");
-        textInputEditText_candidate_id.setText("");
-        //call to Method
-        clearSpinnerValues();
-
     }
 
     //Resets values in the spinner views

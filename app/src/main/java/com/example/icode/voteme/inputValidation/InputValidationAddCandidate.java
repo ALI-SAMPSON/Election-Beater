@@ -54,6 +54,7 @@ public class InputValidationAddCandidate extends AsyncTask<String,Void,String> {
             String programme = params[3];
             String portfolio = params[4];
             String candidate_id = params[5];
+            String candidate_picture = params[6];
 
 
             try {
@@ -74,7 +75,8 @@ public class InputValidationAddCandidate extends AsyncTask<String,Void,String> {
                         +URLEncoder.encode("level", "UTF-8")+"="+URLEncoder.encode(level, "UTF-8")+"&"
                         +URLEncoder.encode("programme", "UTF-8")+"="+URLEncoder.encode(programme, "UTF-8")+"&"
                         +URLEncoder.encode("portfolio", "UTF-8")+"="+URLEncoder.encode(portfolio, "UTF-8")+"&"
-                        +URLEncoder.encode("candidate_id", "UTF-8")+"="+URLEncoder.encode(candidate_id, "UTF-8");
+                        +URLEncoder.encode("candidate_id", "UTF-8")+"="+URLEncoder.encode(candidate_id, "UTF-8")+"&"
+                        +URLEncoder.encode("candidate_picture","UTF-8")+"="+URLEncoder.encode(candidate_picture,"UTF-8");
                 bufferedWriter.write(post_data);    //writes the text from the TextInputEditText fields into the database
                 bufferedWriter.flush();      //pushes everything out of the bufferedWriter
                 bufferedWriter.close();     //closes the bufferedWriter
