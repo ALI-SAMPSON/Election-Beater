@@ -22,6 +22,7 @@
     <string name="text_next">Next</string>
     <string name="text_picture">Picture:</string>
     <string name="text_cancel">Cancel</string>
+    <string name="text_logo_name">iCODE Studios</string>
     <string name="error_message_full_name">Enter Full Name</string>
     <string name="error_message_student_id">Enter Valid Student ID</string>
     <string name="error_message_admin_id">Enter Valid Admin ID</string>
