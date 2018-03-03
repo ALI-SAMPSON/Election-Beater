@@ -45,7 +45,7 @@ public class InputValidationVoterLogin extends AsyncTask<String,Void,String> {
     protected String doInBackground(String... params) {
 
         String type = params[0];
-        String login_url = "http://10.21.43.22/my_project/login.php";     //URL to the Php Script for voter login
+        String login_url = "http://10.0.2.2/my_project/login.php";     //URL to the Php Script for voter login
 
         if (type.equals("login")) {
             try {

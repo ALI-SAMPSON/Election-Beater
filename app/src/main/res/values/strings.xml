@@ -36,5 +36,6 @@
     <string name="error_id_exists">Student ID Already Exist</string>
     <string name="error_pin_match">Pin does not match</string>
     <string name="error_valid_id_pin">Invalid Student ID or Pin</string>
+    <string name="slide_description">Slider Description</string>
 
 </resources>

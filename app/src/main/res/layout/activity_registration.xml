@@ -5,7 +5,7 @@
     android:id="@+id/nestedScrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_orange_light"
+    android:background="@color/background_color"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -17,8 +17,9 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <android.support.v7.widget.AppCompatImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="180dp"
+            android:layout_height="50dp"
+            android:src="@mipmap/mypic"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="8dp"/>
 
@@ -27,8 +28,9 @@
             android:id="@+id/textInputLayoutFullName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:layout_marginLeft="10dp">
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:textColorHint="@color/colorText">
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/textInputEditTextFullName"
                 android:layout_width="match_parent"
@@ -47,11 +49,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="10dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:textColorHint="@color/colorText">
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="horizontal"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:weightSum="1">
             <!--TextView View  and Spinner View for Voter's Level-->
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/textViewLevel"
@@ -59,14 +63,16 @@
                 android:layout_height="40dp"
                 android:text="@string/text_level"
                 android:textSize="19sp"
-                android:textColor="@color/colorText"
                 android:layout_marginLeft="4dp"
-                android:layout_marginTop="4dp"/>
+                android:layout_marginTop="4dp"
+                android:textColor="@color/colorText"
+                android:layout_weight="0.94" />
+
             <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/spinnerLevel"
-                android:layout_width="150dp"
+                android:layout_width="144dp"
                 android:layout_height="40dp"
-                android:layout_marginLeft="50dp"
+                android:layout_marginLeft="100dp"
                 android:layout_marginRight="10dp"/>
         </LinearLayout>
         </android.support.design.widget.TextInputLayout>
@@ -82,7 +88,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:orientation="horizontal"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:weightSum="1">
                 <!--TextView View  and Spinner View for Voter's Gender-->
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/textViewGender"
@@ -92,12 +99,14 @@
                     android:textSize="19sp"
                     android:textColor="@color/colorText"
                     android:layout_marginLeft="4dp"
-                    android:layout_marginTop="4dp"/>
+                    android:layout_marginTop="4dp"
+                    android:layout_weight="1.11" />
+
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/spinnerGender"
                     android:layout_width="150dp"
                     android:layout_height="40dp"
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginLeft="60dp"
                     android:layout_marginRight="10dp"/>
             </LinearLayout>
         </android.support.design.widget.TextInputLayout>
@@ -113,7 +122,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:orientation="horizontal"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:weightSum="1">
                 <!--TextView View  and Spinner View for Voter's Programme-->
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/textViewProgramme"
@@ -122,12 +132,15 @@
                     android:text="@string/text_programme"
                     android:textSize="19sp"
                     android:layout_marginLeft="4dp"
-                    android:layout_marginTop="4dp"/>
+                    android:layout_marginTop="4dp"
+                    android:layout_weight="0.39"
+                    android:textColor="@color/colorText"/>
+
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/spinnerProgramme"
                     android:layout_width="150dp"
                     android:layout_height="40dp"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginLeft="55dp"
                     android:layout_marginRight="10dp"/>
             </LinearLayout>
         </android.support.design.widget.TextInputLayout>
@@ -138,7 +151,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
-            android:layout_marginLeft="10dp">
+            android:layout_marginLeft="10dp"
+            android:textColorHint="@color/colorText">
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/textInputEditTextStudentID"
                 android:layout_width="match_parent"
@@ -157,7 +171,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
-            android:layout_marginLeft="10dp">
+            android:layout_marginLeft="10dp"
+            android:textColorHint="@color/colorText">
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/textInputEditTextPin"
                 android:layout_width="match_parent"
@@ -167,7 +182,7 @@
                 android:textColorHint="@color/colorText"
                 android:inputType="textPassword"
                 android:maxLines="1"
-                android:textColor="@color/text_color"/>
+                android:textColor="@color/colorText"/>
         </android.support.design.widget.TextInputLayout>
 
         <!--TextInputLayout for ConfirmPin-->
@@ -176,7 +191,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
-            android:layout_marginLeft="10dp">
+            android:layout_marginLeft="10dp"
+            android:textColorHint="@color/colorText">
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/textInputEditTextConfirmPin"
                 android:layout_width="match_parent"
@@ -194,8 +210,8 @@
             android:id="@+id/appCompatButtonLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:background="@drawable/round_corner_button"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/round_corner_login_button"
             android:text="@string/text_sign_up"
             android:textColor="@color/colorText"
             android:onClick="OnRegisterButtonClick"/>
@@ -206,9 +222,10 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="10dp"
             android:text="@string/text_already_voter"
             android:textSize="18sp"
+            android:textColor="@color/colorText"
             android:onClick="onLoginActivityLinkClick"/>
 
     </android.support.v7.widget.LinearLayoutCompat>
