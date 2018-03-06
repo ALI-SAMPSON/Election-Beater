@@ -115,7 +115,15 @@ public class SliderView extends AppCompatActivity {
                 mNextBtn.setText("Finish");
                 mBackBtn.setText("Back");
 
-                 if(i == mDots.length - 1){
+                mNextBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intentLogin = new Intent(SliderView.this, LoginActivity.class);
+                        startActivity(intentLogin);
+                    }
+                });
+
+                /* if(i == mDots.length - 1){
                      mNextBtn.setOnClickListener(new View.OnClickListener() {
                          @Override
                          public void onClick(View view) {
@@ -123,7 +131,7 @@ public class SliderView extends AppCompatActivity {
                              startActivity(intentLogin);
                          }
                      });
-                }
+                }*/
 
             }
 

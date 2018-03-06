@@ -25,7 +25,8 @@
         <activity android:name=".activities.AfterLoginActivity" />
         <activity android:name=".activities.AdminLoginActivity" />
         <activity android:name=".activities.AddCandidateActivity" />
-        <activity android:name=".activities.LoginActivity"></activity>
+        <activity android:name=".activities.LoginActivity" />
+        <activity android:name=".activities.App_Info"></activity>
     </application>
 
 </manifest>
