@@ -12,6 +12,10 @@
     <color name="back_color">#FFF54E4E</color>
     <color name="colorAccent1">#FF4081</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="colorBlue">#FF0386DB</color>
+    <color name="colorViolet">#81779D</color>
+    <color name="colorVioletLight">#A292C7</color>
+    <color name="colorVioletDeep">#4F5061</color>
     <color name="colorTransparentWhite">#cccccc</color>
 
     <color name="background_color">#009688</color>

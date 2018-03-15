@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.SliderView">
+        <activity android:name=".activities.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,7 +26,8 @@
         <activity android:name=".activities.AdminLoginActivity" />
         <activity android:name=".activities.AddCandidateActivity" />
         <activity android:name=".activities.LoginActivity" />
-        <activity android:name=".activities.App_Info"></activity>
+        <activity android:name=".activities.App_Info" />
+        <activity android:name=".activities.SliderView"/>
     </application>
 
 </manifest>
