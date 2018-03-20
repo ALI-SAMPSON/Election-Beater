@@ -1,33 +1,34 @@
 package com.example.icode.voteme.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatSpinner;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.example.icode.voteme.models.VoterModel;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import com.example.icode.voteme.models.Voter;
 import com.google.firebase.auth.FirebaseAuth;
 
 
 import com.example.icode.voteme.R;
-import com.example.icode.voteme.inputValidation.InputValidationVoterRegister;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -39,9 +40,12 @@ public class RegistrationActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private FirebaseAuth auth;
 
-    private DatabaseReference db;
+    FirebaseDatabase database;
+    DatabaseReference voterRef;
+    Voter voter;
 
-    private VoterModel votermodel;
+    private ProgressDialog progressDialog;
+
 
     //AppCompatSpinner object and ArrayAdapter object for Voter's Level
     AppCompatSpinner spinnerLevel;
@@ -59,14 +63,12 @@ public class RegistrationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setLogo(R.drawable.ic_arrow_left_black);
 
+       // ActionBar actionBar = getSupportActionBar();
+        //actionBar.setDisplayHomeAsUpEnabled(true);
+        //actionBar.setDisplayShowHomeEnabled(true);
 
-        //Get firebase Auth instance
-        auth = FirebaseAuth.getInstance();
-
-        db = FirebaseDatabase.getInstance().getReference("VoterModel");
+        //actionBar.setLogo(R.drawable.ic_arrow_back_white_24dp);
 
         //Get ProgressBar instance
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
@@ -99,19 +101,33 @@ public class RegistrationActivity extends AppCompatActivity {
         adapterProgramme.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerProgramme.setAdapter(adapterProgramme);
 
+       // voter = new Voter();
+
+    }
+
+    private void getValues(){
+        voter.setFull_name(textInputEditText_full_name.getText().toString().trim());
+        voter.setStudent_id(textInputEditText_student_id.getText().toString().trim());
+        voter.setPin(textInputEditText_pin.getText().toString().trim());
+        voter.setConfirm_pin(textInputEditText_confirm_pin.getText().toString().trim());
+        voter.setLevel(spinnerLevel.getSelectedItem().toString().trim());
+        voter.setGender(spinnerGender.getSelectedItem().toString().trim());
+        voter.setProgramme(spinnerProgramme.getSelectedItem().toString().trim());
     }
 
     public void OnRegisterButtonClick(View view) {
 
-        //getting text from the textInputEditText field and Spinner View
-        String str_full_name = textInputEditText_full_name.getText().toString().trim();
-        String str_student_id = textInputEditText_student_id.getText().toString().trim();
-        String str_pin = textInputEditText_pin.getText().toString().trim();
-        String str_confirm_pin = textInputEditText_confirm_pin.getText().toString().trim();
+       // progressDialog = ProgressDialog.show(RegistrationActivity.this, "Signing Up...", null, true, true);
 
-        String str_level = spinnerLevel.getSelectedItem().toString().trim();
-        String str_gender = spinnerGender.getSelectedItem().toString().trim();
-        String str_programme = spinnerProgramme.getSelectedItem().toString().trim();
+        //getting text from the textInputEditText field and Spinner View
+        final String str_full_name = textInputEditText_full_name.getText().toString().trim();
+        final String str_student_id = textInputEditText_student_id.getText().toString().trim();
+        final String str_pin = textInputEditText_pin.getText().toString().trim();
+        final String str_confirm_pin = textInputEditText_confirm_pin.getText().toString().trim();
+
+        final String str_level = spinnerLevel.getSelectedItem().toString().trim();
+        final String str_gender = spinnerGender.getSelectedItem().toString().trim();
+        final String str_programme = spinnerProgramme.getSelectedItem().toString().trim();
 
         String error_fill_text = "This field cannot be left blank";
 
@@ -144,45 +160,57 @@ public class RegistrationActivity extends AppCompatActivity {
             return;
         }
 
-        //defines the type of operation to be performed
-        String type = "register";
+       // progressDialog.show();
 
-        //Creates an object of the InputValidationVoterRegister Class in this context
-        votermodel = new VoterModel(this);
-        //Executes the object of the InputValidationVoterRegister Class using the String variables
-        votermodel = new VoterModel(type, str_full_name, str_level, str_gender, str_programme,
-                str_student_id, str_pin, str_confirm_pin);
+        //insert the values of the views into the database
+        voterRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                voter = new Voter(str_full_name,str_student_id,str_pin,str_confirm_pin,str_level,str_gender,str_programme);
+                database = FirebaseDatabase.getInstance();
+                voterRef = database.getReference("Voter").push();
+                getValues();
+                voterRef.setValue(voter);
 
-        progressBar.setVisibility(View.VISIBLE);
-        //create user
-        auth.createUserWithEmailAndPassword(str_full_name, str_level)
-                .addOnCompleteListener(RegistrationActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        //defines the type of operation to be performed
-                        String type = "register";
-                        Toast.makeText(RegistrationActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
-                        progressBar.setVisibility(View.GONE);
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
-                            Toast.makeText(RegistrationActivity.this, "Authentication failed." + task.getException(),
-                                    Toast.LENGTH_SHORT).show();
-                            clearTextFields();      //call to the clearTextFields
-                        } else {
-                            startActivity(new Intent(RegistrationActivity.this, AfterLoginActivity.class));
-                            finish();
-                            clearTextFields();      //call to the clearTextFields
-                        }
-                    }
-                });
+                    Toast.makeText(RegistrationActivity.this, "You have Successfully Signed Up", Toast.LENGTH_LONG).show();
+            }
 
-           }
-    @Override
-    protected void onResume() {
-        super.onResume();
-        progressBar.setVisibility(View.GONE);
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(RegistrationActivity.this, "Failed to create account" + databaseError.toException(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+
+        //Instance of the User Class
+      //  voter = new Voter(str_full_name, str_level, str_gender, str_programme, str_student_id, str_pin, str_confirm_pin);
+
+        //progressBar.setVisibility(View.VISIBLE);
+
+       //  database = FirebaseDatabase.getInstance();
+       //  voterRef = database.getReference("Voter").push();
+        // voterRef.setValue(voter);
+        //clears the textfields after a successful login
+        clearTextFields();
+
+      /*  if (voterRef.setValue(voter) != null) {
+            final Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+            public void run() {
+                progressDialog.dismiss();    //dismisses the alertDialog
+                timer.cancel();     //this will cancel the timer of the system
+            }
+        }, 4000);   // the timer will count 4 seconds....
+
+        Toast.makeText(RegistrationActivity.this, "Account Created successfully, You can proceed to log in!", Toast.LENGTH_LONG).show();
+        }
+
+        else
+        {
+            Toast.makeText(RegistrationActivity.this, "Failed to create account, Try Again Later!", Toast.LENGTH_LONG).show();
+        }*/
+
+
     }
 
         /* InputValidation for the various textFields that is, tests to see if the
