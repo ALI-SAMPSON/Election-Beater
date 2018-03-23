@@ -1,22 +1,35 @@
 package com.example.icode.voteme.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.icode.voteme.R;
 import com.example.icode.voteme.inputValidation.InputValidationAdminLogin;
 import com.example.icode.voteme.inputValidation.InputValidationVoterLogin;
+import com.example.icode.voteme.models.Voter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
 
     //private ProgressDialog progressDialog;
     TextInputEditText textInputEditTextStudentId;
     TextInputEditText textInputEditTextPin;
+
+    FirebaseDatabase database;
+    DatabaseReference voterRef;
+
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +46,8 @@ public class LoginActivity extends AppCompatActivity {
         //Retrieve the text entered from the textInputEditText Field
         String student_id = textInputEditTextStudentId.getText().toString().trim();
         String pin = textInputEditTextPin.getText().toString().trim();
+
+        progressDialog = ProgressDialog.show(LoginActivity.this, "Logging Up...", null, true, true);
 
         if(student_id.equals("") || pin.equals("")){
             Toast.makeText(LoginActivity.this, "Student ID or Pin field cannot be left blank", Toast.LENGTH_LONG).show();
@@ -51,13 +66,34 @@ public class LoginActivity extends AppCompatActivity {
         }
         else
         {
-            //describe the type of operation to be perform. e.g a Login Operation
+
+            //login into the database
+            database = FirebaseDatabase.getInstance();
+            voterRef = database.getReference("Voter").push();
+            voterRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.exists()){
+                        Voter voter = dataSnapshot.getValue(Voter.class);
+                        progressDialog.dismiss();
+                        Toast.makeText(LoginActivity.this, voter.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Toast.makeText(LoginActivity.this, "Failed to log in" + databaseError.toException(), Toast.LENGTH_LONG).show();
+                }
+            });
+
+      /*      //describe the type of operation to be perform. e.g a Login Operation
             String type = "login";
             InputValidationVoterLogin inputValidationLogin = new InputValidationVoterLogin(this);
             inputValidationLogin.execute(type, student_id, pin);
 
             //Clears the textInputEditTextPin for pin after a successful login
             textInputEditTextPin.setText("");
+            */
         }
     }
 

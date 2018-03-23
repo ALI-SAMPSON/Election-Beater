@@ -4,8 +4,8 @@
         android:endColor="@color/colorGray"/>
     <gradient
         android:angle="225"
-        android:startColor="@color/holo_red_light"
-        android:endColor="@color/colorPrimaryDark"/>
+        android:startColor="@color/bg_main"
+        android:endColor="@color/colorBlue"/>
     <corners
         android:bottomLeftRadius="20dp"
         android:bottomRightRadius="20dp"

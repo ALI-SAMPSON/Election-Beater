@@ -2,6 +2,7 @@ package com.example.icode.voteme.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,9 @@ import android.widget.Toast;
 
 
 import com.example.icode.voteme.models.Voter;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
 
@@ -101,6 +105,9 @@ public class RegistrationActivity extends AppCompatActivity {
         adapterProgramme.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerProgramme.setAdapter(adapterProgramme);
 
+        voter = new Voter();
+        database = FirebaseDatabase.getInstance();
+        voterRef = database.getReference("Voter").push();
        // voter = new Voter();
 
     }
@@ -117,7 +124,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     public void OnRegisterButtonClick(View view) {
 
-       // progressDialog = ProgressDialog.show(RegistrationActivity.this, "Signing Up...", null, true, true);
+        progressDialog = ProgressDialog.show(RegistrationActivity.this, "Signing Up...", null, true, true);
 
         //getting text from the textInputEditText field and Spinner View
         final String str_full_name = textInputEditText_full_name.getText().toString().trim();
@@ -160,56 +167,37 @@ public class RegistrationActivity extends AppCompatActivity {
             return;
         }
 
-       // progressDialog.show();
-
-        //insert the values of the views into the database
-        voterRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                voter = new Voter(str_full_name,str_student_id,str_pin,str_confirm_pin,str_level,str_gender,str_programme);
-                database = FirebaseDatabase.getInstance();
-                voterRef = database.getReference("Voter").push();
-                getValues();
-                voterRef.setValue(voter);
-
-                    Toast.makeText(RegistrationActivity.this, "You have Successfully Signed Up", Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(RegistrationActivity.this, "Failed to create account" + databaseError.toException(), Toast.LENGTH_LONG).show();
-            }
-        });
-
+        progressDialog.show();
 
         //Instance of the User Class
-      //  voter = new Voter(str_full_name, str_level, str_gender, str_programme, str_student_id, str_pin, str_confirm_pin);
+        voter = new Voter(str_full_name, str_level, str_gender, str_programme, str_student_id, str_pin, str_confirm_pin);
 
         //progressBar.setVisibility(View.VISIBLE);
 
-       //  database = FirebaseDatabase.getInstance();
-       //  voterRef = database.getReference("Voter").push();
-        // voterRef.setValue(voter);
-        //clears the textfields after a successful login
-        clearTextFields();
-
-      /*  if (voterRef.setValue(voter) != null) {
-            final Timer timer = new Timer();
-                timer.schedule(new TimerTask() {
-            public void run() {
-                progressDialog.dismiss();    //dismisses the alertDialog
-                timer.cancel();     //this will cancel the timer of the system
-            }
-        }, 4000);   // the timer will count 4 seconds....
-
-        Toast.makeText(RegistrationActivity.this, "Account Created successfully, You can proceed to log in!", Toast.LENGTH_LONG).show();
-        }
-
-        else
-        {
-            Toast.makeText(RegistrationActivity.this, "Failed to create account, Try Again Later!", Toast.LENGTH_LONG).show();
-        }*/
-
+         database = FirebaseDatabase.getInstance();
+         voterRef = database.getReference("Voter").push();
+         voterRef.setValue(voter).addOnCompleteListener(this, new OnCompleteListener<Void>() {
+             @Override
+             public void onComplete(@NonNull Task<Void> task) {
+                 if (task.isComplete()){
+                     progressDialog.dismiss();
+                     Toast.makeText(RegistrationActivity.this, "You have Successfully Signed Up", Toast.LENGTH_LONG).show();
+                     clearTextFields();  //clears the textfields after a successful login
+                 }
+                 else
+                 {
+                     progressDialog.dismiss();
+                     Toast.makeText(RegistrationActivity.this, "Failed to sign up, Please Try Again!", Toast.LENGTH_LONG).show();
+                     clearTextFields();  //clears the textfields after a successful login
+                 }
+             }
+         }).addOnFailureListener(this, new OnFailureListener() {
+             @Override
+             public void onFailure(@NonNull Exception e) {
+                 //cannot connect to db or internet
+                 Toast.makeText(RegistrationActivity.this, "Cannot connect to database, Please check your internet connection" + e.getStackTrace().toString(), Toast.LENGTH_LONG).show();
+             }
+         });
 
     }
 

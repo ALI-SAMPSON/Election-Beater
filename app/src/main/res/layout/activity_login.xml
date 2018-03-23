@@ -5,7 +5,7 @@
     android:id="@+id/nestedScrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_interface"
+    android:background="@drawable/login_screen"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -17,24 +17,11 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <android.support.v7.widget.AppCompatImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="40dp"
-            android:src="@mipmap/mypic"/>
-
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/logo"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="10dp"
-            android:text="LOGIN"
-            android:typeface="serif"
-            android:textStyle="italic"
-            android:textColor="@color/colorText"
-            android:textSize="25sp"
-            android:onClick="onAdminLoginTextViewLinkClick"/>
+            android:layout_marginTop="70dp"
+            android:src="@mipmap/logo"/>
 
         <!--TextInputLayout for Student ID-->
         <android.support.design.widget.TextInputLayout
@@ -99,9 +86,10 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="40dp"
+            android:textColor="@color/black"
             android:text="@string/text_not_voter"
-            android:textColor="@color/colorText"
+
             android:textSize="20sp"
             android:onClick="onRegisterTextViewLinkClick"/>
 
@@ -112,7 +100,7 @@
             android:gravity="center"
             android:layout_marginTop="90dp"
             android:text="@string/text_already_admin"
-            android:textColor="@color/colorText"
+            android:textColor="@color/black"
             android:textSize="20sp"
             android:onClick="onAdminLoginTextViewLinkClick"/>
 

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Election Beater</string>
     <string name="hint_name">Name</string>
-    <string name="hint_full_name">Full Name:</string>
+    <string name="hint_full_name">Full Name</string>
     <string name="hint_gender">Gender</string>
     <string name="hint_level">Level</string>
     <string name="hint_programme">Programme</string>

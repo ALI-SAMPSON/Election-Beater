@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<android.support.v4.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nestedScrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="@color/colorPrimaryDark1"
+    android:background="@drawable/login_screen"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -16,7 +17,14 @@
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:id="@+id/linearLayoutCompat">
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:src="@mipmap/logo"/>
 
         <!--TextInputLayout for Full Name-->
         <android.support.design.widget.TextInputLayout
@@ -25,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:layout_marginLeft="10dp"
-            android:textColorHint="@color/colorText">
+            android:textColorHint="@color/black">
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/textInputEditTextFullName"
                 android:layout_width="match_parent"
@@ -60,15 +68,24 @@
                 android:textSize="19sp"
                 android:layout_marginLeft="4dp"
                 android:layout_marginTop="4dp"
-                android:textColor="@color/colorText"
+                android:textColor="@color/black"
                 android:layout_weight="0.94" />
 
+            <LinearLayout
+                android:layout_width="200dp"
+                android:orientation="horizontal"
+                android:layout_height="40dp"
+                android:weightSum="1"
+                android:layout_marginRight="10dp">
             <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/spinnerLevel"
                 android:layout_width="144dp"
                 android:layout_height="40dp"
-                android:layout_marginLeft="100dp"
-                android:layout_marginRight="10dp"/>
+                android:layout_marginLeft="60dp"
+                android:layout_marginRight="10dp"
+                android:visibility="visible"/>
+            </LinearLayout>
+
         </LinearLayout>
         </android.support.design.widget.TextInputLayout>
 
@@ -92,17 +109,25 @@
                     android:layout_height="40dp"
                     android:text="@string/text_gender"
                     android:textSize="19sp"
-                    android:textColor="@color/colorText"
+                    android:textColor="@color/black"
                     android:layout_marginLeft="4dp"
                     android:layout_marginTop="4dp"
                     android:layout_weight="1.11" />
 
+            <LinearLayout
+                android:layout_width="200dp"
+                android:orientation="horizontal"
+                android:layout_height="40dp"
+                android:weightSum="1"
+                android:layout_marginRight="10dp">
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/spinnerGender"
                     android:layout_width="150dp"
                     android:layout_height="40dp"
-                    android:layout_marginLeft="60dp"
+                    android:layout_marginLeft="42dp"
                     android:layout_marginRight="10dp"/>
+                </LinearLayout>
+
             </LinearLayout>
         </android.support.design.widget.TextInputLayout>
 
@@ -129,14 +154,22 @@
                     android:layout_marginLeft="4dp"
                     android:layout_marginTop="4dp"
                     android:layout_weight="0.39"
-                    android:textColor="@color/colorText"/>
+                    android:textColor="@color/black"/>
 
+            <LinearLayout
+                android:layout_width="200dp"
+                android:orientation="horizontal"
+                android:layout_height="40dp"
+                android:weightSum="1"
+                android:layout_marginRight="10dp">
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/spinnerProgramme"
                     android:layout_width="150dp"
                     android:layout_height="40dp"
-                    android:layout_marginLeft="55dp"
+                    android:layout_marginLeft="80dp"
                     android:layout_marginRight="10dp"/>
+                </LinearLayout>
+
             </LinearLayout>
         </android.support.design.widget.TextInputLayout>
 
@@ -147,7 +180,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
             android:layout_marginLeft="10dp"
-            android:textColorHint="@color/colorText">
+            android:textColorHint="@color/black">
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/textInputEditTextStudentID"
                 android:layout_width="match_parent"
@@ -157,7 +190,7 @@
                 android:textColorHint="@color/colorText"
                 android:inputType="text"
                 android:maxLines="1"
-                android:textColor="@color/text_color"/>
+                android:textColor="@color/edit_text_color"/>
         </android.support.design.widget.TextInputLayout>
 
         <!--TextInputLayout for Pin-->
@@ -167,7 +200,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
             android:layout_marginLeft="10dp"
-            android:textColorHint="@color/colorText">
+            android:textColorHint="@color/black">
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/textInputEditTextPin"
                 android:layout_width="match_parent"
@@ -187,7 +220,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
             android:layout_marginLeft="10dp"
-            android:textColorHint="@color/colorText">
+            android:textColorHint="@color/black">
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/textInputEditTextConfirmPin"
                 android:layout_width="match_parent"
@@ -197,7 +230,7 @@
                 android:textColorHint="@color/colorText"
                 android:inputType="textPassword"
                 android:maxLines="1"
-                android:textColor="@color/text_color"/>
+                android:textColor="@color/black"/>
         </android.support.design.widget.TextInputLayout>
 
         <!--Button for Sign Up-->
@@ -205,7 +238,7 @@
             android:id="@+id/appCompatButtonLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/round_corner_login_button"
             android:text="@string/text_sign_up"
             android:textColor="@color/colorText"
@@ -217,10 +250,10 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:text="@string/text_already_voter"
             android:textSize="18sp"
-            android:textColor="@color/colorText"
+            android:textColor="@color/edit_text_color"
             android:onClick="onLoginActivityLinkClick"/>
 
         <!-- Progress Bar -->
@@ -234,4 +267,4 @@
 
     </android.support.v7.widget.LinearLayoutCompat>
 
-    </android.support.design.widget.CoordinatorLayout>
+</android.support.v4.widget.NestedScrollView>
