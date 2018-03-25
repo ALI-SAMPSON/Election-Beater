@@ -107,8 +107,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
         voter = new Voter();
         database = FirebaseDatabase.getInstance();
-        voterRef = database.getReference("Voter").push();
-       // voter = new Voter();
+        voterRef = database.getReference().child("Voter");
 
     }
 
@@ -167,38 +166,7 @@ public class RegistrationActivity extends AppCompatActivity {
             return;
         }
 
-        progressDialog.show();
-
-        //Instance of the User Class
-        voter = new Voter(str_full_name, str_level, str_gender, str_programme, str_student_id, str_pin, str_confirm_pin);
-
-        //progressBar.setVisibility(View.VISIBLE);
-
-         database = FirebaseDatabase.getInstance();
-         voterRef = database.getReference("Voter").push();
-         voterRef.setValue(voter).addOnCompleteListener(this, new OnCompleteListener<Void>() {
-             @Override
-             public void onComplete(@NonNull Task<Void> task) {
-                 if (task.isComplete()){
-                     progressDialog.dismiss();
-                     Toast.makeText(RegistrationActivity.this, "You have Successfully Signed Up", Toast.LENGTH_LONG).show();
-                     clearTextFields();  //clears the textfields after a successful login
-                 }
-                 else
-                 {
-                     progressDialog.dismiss();
-                     Toast.makeText(RegistrationActivity.this, "Failed to sign up, Please Try Again!", Toast.LENGTH_LONG).show();
-                     clearTextFields();  //clears the textfields after a successful login
-                 }
-             }
-         }).addOnFailureListener(this, new OnFailureListener() {
-             @Override
-             public void onFailure(@NonNull Exception e) {
-                 //cannot connect to db or internet
-                 Toast.makeText(RegistrationActivity.this, "Cannot connect to database, Please check your internet connection" + e.getStackTrace().toString(), Toast.LENGTH_LONG).show();
-             }
-         });
-
+        onRegisterVoter();
     }
 
         /* InputValidation for the various textFields that is, tests to see if the
@@ -250,6 +218,35 @@ public class RegistrationActivity extends AppCompatActivity {
         }*/
 
     //}
+
+    //Adds the voter details to the database
+    public void onRegisterVoter(){
+        progressDialog.show();
+
+        //get the values from the fields and sets them to that of the values in the database
+        voter.setFull_name(textInputEditText_full_name.getText().toString().trim());
+        voter.setStudent_id(textInputEditText_student_id.getText().toString().trim());
+        voter.setPin(textInputEditText_pin.getText().toString().trim());
+        voter.setConfirm_pin(textInputEditText_confirm_pin.getText().toString().trim());
+        voter.setLevel(spinnerLevel.getSelectedItem().toString().trim());
+        voter.setGender(spinnerGender.getSelectedItem().toString().trim());
+        voter.setProgramme(spinnerProgramme.getSelectedItem().toString().trim());
+
+
+        voterRef.child(voter.getStudent_id()).setValue(voter).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    Toast.makeText(RegistrationActivity.this, " You have Successfully Signed...", Toast.LENGTH_LONG).show();
+                    clearTextFields();
+                }
+                else
+                {
+                    Toast.makeText(RegistrationActivity.this, "Cannot connect to database, Please try again...", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
 
          //Method for Clearing all textfields after Login Button is Clicked
     public void clearTextFields(){

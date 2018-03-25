@@ -18,7 +18,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -44,8 +48,8 @@ public class LoginActivity extends AppCompatActivity {
     //Method for the On-Button Click event
     public void onLoginButtonClick(View view) {
         //Retrieve the text entered from the textInputEditText Field
-        String student_id = textInputEditTextStudentId.getText().toString().trim();
-        String pin = textInputEditTextPin.getText().toString().trim();
+        final String student_id = textInputEditTextStudentId.getText().toString().trim();
+        final String pin = textInputEditTextPin.getText().toString().trim();
 
         progressDialog = ProgressDialog.show(LoginActivity.this, "Logging Up...", null, true, true);
 
@@ -67,22 +71,34 @@ public class LoginActivity extends AppCompatActivity {
         else
         {
 
-            //login into the database
-            database = FirebaseDatabase.getInstance();
-            voterRef = database.getReference("Voter").push();
-            voterRef.addValueEventListener(new ValueEventListener() {
+            Query query = voterRef.child("voters").orderByChild("student_id").equalTo(textInputEditTextStudentId.getText().toString().trim());
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    if(dataSnapshot.exists()){
-                        Voter voter = dataSnapshot.getValue(Voter.class);
-                        progressDialog.dismiss();
-                        Toast.makeText(LoginActivity.this, voter.toString(), Toast.LENGTH_SHORT).show();
+                    if (dataSnapshot.exists()) {
+                        // dataSnapshot is the "issue" node with all children with id 0
+                        for (DataSnapshot voterdataSnapshot : dataSnapshot.getChildren()) {
+                            // do something with the individual "issues"
+                            Voter voter = voterdataSnapshot.getValue(Voter.class);
+                            if (voter.getPin().equals(textInputEditTextPin.getText().toString().trim())) {
+                                Intent intentLogin = new Intent(LoginActivity.this, AfterLoginActivity.class);
+                                startActivity(intentLogin);
+                            } else {
+                                Toast.makeText(LoginActivity.this, "Pin is incorrect", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Toast.makeText(LoginActivity.this, "Voter is not found", Toast.LENGTH_LONG).show();
                     }
                 }
 
+
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-                    Toast.makeText(LoginActivity.this, "Failed to log in" + databaseError.toException(), Toast.LENGTH_LONG).show();
+                    //cannot connect to db or internet
+                    Toast.makeText(LoginActivity.this, "Cannot connect to database" + databaseError.toException(), Toast.LENGTH_LONG).show();
                 }
             });
 
@@ -95,6 +111,11 @@ public class LoginActivity extends AppCompatActivity {
             textInputEditTextPin.setText("");
             */
         }
+    }
+
+
+    public void loginAuthentication(){
+
     }
 
     //AppCompatTextView Click Listener for Voter Registration Screen

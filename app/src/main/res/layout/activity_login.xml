@@ -20,7 +20,7 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="60dp"
             android:src="@mipmap/logo"/>
 
         <!--TextInputLayout for Student ID-->
@@ -81,29 +81,36 @@
             android:textColor="@color/colorText"
             android:onClick="onLoginButtonClick"/>
 
-        <android.support.v7.widget.AppCompatTextView
+        <!--Button to navigate to the Register Activity-->
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/textViewLinkRegister"
-            android:layout_width="fill_parent"
+            android:layout_width="310dp"
+            android:layout_gravity="center"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="40dp"
-            android:textColor="@color/black"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/appCompatButtonLogin"
+            android:background="@null"
             android:text="@string/text_not_voter"
-
-            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:textAllCaps="false"
+            android:textSize="16dp"
             android:onClick="onRegisterTextViewLinkClick"/>
 
-        <android.support.v7.widget.AppCompatTextView
+        <!--Button to navigate to Admin Login Activity-->
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/textViewLinkAdminLogin"
-            android:layout_width="fill_parent"
+            android:layout_width="310dp"
+            android:layout_gravity="center"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="90dp"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/appCompatButtonLogin"
+            android:background="@null"
             android:text="@string/text_already_admin"
             android:textColor="@color/black"
-            android:textSize="20sp"
+            android:textAllCaps="false"
+            android:textSize="16dp"
             android:onClick="onAdminLoginTextViewLinkClick"/>
-
+        
     </android.support.v7.widget.LinearLayoutCompat>
 
 </android.support.v4.widget.NestedScrollView>
