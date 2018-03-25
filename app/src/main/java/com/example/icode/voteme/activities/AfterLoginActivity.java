@@ -1,5 +1,6 @@
 package com.example.icode.voteme.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,7 +14,12 @@ import android.widget.Toast;
 
 import com.example.icode.voteme.R;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class AfterLoginActivity extends AppCompatActivity {
+
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +53,15 @@ public class AfterLoginActivity extends AppCompatActivity {
                 break;
             //logs the voter out of the system
             case R.id.logout:
+                progressDialog = ProgressDialog.show(AfterLoginActivity.this, "Logging Out...", null, true, true);
+                progressDialog.show(); //displays the progress dialog
+                final Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    public void run() {
+                        progressDialog.dismiss();    //dismisses the alertDialog
+                        timer.cancel();     //this will cancel the timer of the system
+                    }
+                }, 8000);   // the timer will count 4 seconds....
                 Intent intent_logout = new Intent(AfterLoginActivity.this, LoginActivity.class);
                 startActivity(intent_logout);
                 break;

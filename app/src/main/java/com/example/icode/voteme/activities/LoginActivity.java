@@ -43,6 +43,8 @@ public class LoginActivity extends AppCompatActivity {
         textInputEditTextStudentId = (TextInputEditText)findViewById(R.id.textInputEditTextStudentID);
         textInputEditTextPin = (TextInputEditText)findViewById(R.id.textInputEditTextPin);
 
+        voterRef = FirebaseDatabase.getInstance().getReference().child("Voter");
+
     }
 
     //Method for the On-Button Click event
@@ -50,8 +52,6 @@ public class LoginActivity extends AppCompatActivity {
         //Retrieve the text entered from the textInputEditText Field
         final String student_id = textInputEditTextStudentId.getText().toString().trim();
         final String pin = textInputEditTextPin.getText().toString().trim();
-
-        progressDialog = ProgressDialog.show(LoginActivity.this, "Logging Up...", null, true, true);
 
         if(student_id.equals("") || pin.equals("")){
             Toast.makeText(LoginActivity.this, "Student ID or Pin field cannot be left blank", Toast.LENGTH_LONG).show();
@@ -70,52 +70,59 @@ public class LoginActivity extends AppCompatActivity {
         }
         else
         {
-
-            Query query = voterRef.child("voters").orderByChild("student_id").equalTo(textInputEditTextStudentId.getText().toString().trim());
-            query.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        // dataSnapshot is the "issue" node with all children with id 0
-                        for (DataSnapshot voterdataSnapshot : dataSnapshot.getChildren()) {
-                            // do something with the individual "issues"
-                            Voter voter = voterdataSnapshot.getValue(Voter.class);
-                            if (voter.getPin().equals(textInputEditTextPin.getText().toString().trim())) {
-                                Intent intentLogin = new Intent(LoginActivity.this, AfterLoginActivity.class);
-                                startActivity(intentLogin);
-                            } else {
-                                Toast.makeText(LoginActivity.this, "Pin is incorrect", Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    }
-                    else
-                    {
-                        Toast.makeText(LoginActivity.this, "Voter is not found", Toast.LENGTH_LONG).show();
-                    }
-                }
-
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    //cannot connect to db or internet
-                    Toast.makeText(LoginActivity.this, "Cannot connect to database" + databaseError.toException(), Toast.LENGTH_LONG).show();
-                }
-            });
-
-      /*      //describe the type of operation to be perform. e.g a Login Operation
-            String type = "login";
-            InputValidationVoterLogin inputValidationLogin = new InputValidationVoterLogin(this);
-            inputValidationLogin.execute(type, student_id, pin);
-
-            //Clears the textInputEditTextPin for pin after a successful login
-            textInputEditTextPin.setText("");
-            */
+            onLoginVoter();
         }
     }
 
 
-    public void loginAuthentication(){
+    public void onLoginVoter(){
 
+        final String myStdID = textInputEditTextStudentId.getText().toString();
+        final String myPin = textInputEditTextPin.getText().toString();
+
+        progressDialog = ProgressDialog.show(LoginActivity.this, "Logging Up...", null, true, true);
+
+        try{
+            voterRef.child(myStdID).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Voter voter = dataSnapshot.getValue(Voter.class);
+                    if(myPin.equals(voter.getPin())){
+                        final Timer timer = new Timer();
+                        timer.schedule(new TimerTask() {
+                            public void run() {
+                                progressDialog.dismiss();    //dismisses the alertDialog
+                                timer.cancel();     //this will cancel the timer of the system
+                            }
+                        }, 4000);   // the timer will count 4 seconds....
+                        clearTextFields();
+                        Toast.makeText(LoginActivity.this,"You have Successfully Logged In...", Toast.LENGTH_LONG).show();
+                        Intent intentLogin = new Intent(LoginActivity.this, AfterLoginActivity.class);
+                        startActivity(intentLogin);
+
+                    }
+                    else
+                    {
+                        Toast.makeText(LoginActivity.this,"Incorrect Student ID or Pin...", Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Toast.makeText(LoginActivity.this, databaseError.toException().toString(), Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+        catch (Exception ex){
+            Toast.makeText(LoginActivity.this, "Student does not exist in database!!", Toast.LENGTH_LONG).show();
+            ex.printStackTrace();
+        }
+    }
+
+    //clears text fields
+    public void clearTextFields() {
+        textInputEditTextStudentId.setText(null);
+        textInputEditTextPin.setText(null);
     }
 
     //AppCompatTextView Click Listener for Voter Registration Screen
@@ -130,5 +137,5 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intentAdminLogin);
     }
 
-    }
+}
 

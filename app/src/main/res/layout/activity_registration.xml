@@ -208,8 +208,9 @@
                 android:drawableLeft="@drawable/ic_https_black_24dp"
                 android:hint="@string/hint_pin"
                 android:textColorHint="@color/colorText"
-                android:inputType="textPassword"
+                android:inputType="numberPassword"
                 android:maxLines="1"
+                android:maxLength="5"
                 android:textColor="@color/colorText"/>
         </android.support.design.widget.TextInputLayout>
 
@@ -228,8 +229,9 @@
                 android:drawableLeft="@drawable/ic_https_black_24dp"
                 android:hint="@string/hint_confirm_pin"
                 android:textColorHint="@color/colorText"
-                android:inputType="textPassword"
+                android:inputType="numberPassword"
                 android:maxLines="1"
+                android:maxLength="5"
                 android:textColor="@color/black"/>
         </android.support.design.widget.TextInputLayout>
 

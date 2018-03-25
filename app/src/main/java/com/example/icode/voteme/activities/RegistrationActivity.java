@@ -111,19 +111,10 @@ public class RegistrationActivity extends AppCompatActivity {
 
     }
 
-    private void getValues(){
-        voter.setFull_name(textInputEditText_full_name.getText().toString().trim());
-        voter.setStudent_id(textInputEditText_student_id.getText().toString().trim());
-        voter.setPin(textInputEditText_pin.getText().toString().trim());
-        voter.setConfirm_pin(textInputEditText_confirm_pin.getText().toString().trim());
-        voter.setLevel(spinnerLevel.getSelectedItem().toString().trim());
-        voter.setGender(spinnerGender.getSelectedItem().toString().trim());
-        voter.setProgramme(spinnerProgramme.getSelectedItem().toString().trim());
-    }
-
+    //method for registering a new voter
     public void OnRegisterButtonClick(View view) {
 
-        progressDialog = ProgressDialog.show(RegistrationActivity.this, "Signing Up...", null, true, true);
+       // progressDialog = ProgressDialog.show(RegistrationActivity.this, "Signing Up...", null, true, true);
 
         //getting text from the textInputEditText field and Spinner View
         final String str_full_name = textInputEditText_full_name.getText().toString().trim();
@@ -137,58 +128,28 @@ public class RegistrationActivity extends AppCompatActivity {
 
         String error_fill_text = "This field cannot be left blank";
 
-        if (TextUtils.isEmpty(str_full_name)) {
-            Toast.makeText(getApplicationContext(), error_fill_text, Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (TextUtils.isEmpty(str_student_id)) {
-            Toast.makeText(getApplicationContext(), error_fill_text, Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (TextUtils.isEmpty(str_pin)) {
-            Toast.makeText(getApplicationContext(), error_fill_text, Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (TextUtils.isEmpty(str_confirm_pin)) {
-            Toast.makeText(getApplicationContext(), error_fill_text, Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (TextUtils.isEmpty(str_level)) {
-            Toast.makeText(getApplicationContext(), error_fill_text, Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (TextUtils.isEmpty(str_gender)) {
-            Toast.makeText(getApplicationContext(), error_fill_text, Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (TextUtils.isEmpty(str_programme)) {
-            Toast.makeText(getApplicationContext(), error_fill_text, Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        onRegisterVoter();
-    }
 
         /* InputValidation for the various textFields that is, tests to see if the
          * textInputEditTextFields are fill with relevant data
         */
 
-
-       /*
         if (textInputEditText_student_id.getText().toString().trim().equalsIgnoreCase(""))
         {
             textInputEditText_student_id.setError(error_fill_text);
+            Toast.makeText(RegistrationActivity.this, "Student ID is a required field!...", Toast.LENGTH_LONG).show();
         }
 
         else if (textInputEditText_pin.getText().toString().trim().equalsIgnoreCase(""))
         {
             textInputEditText_pin.setError(error_fill_text);
+            Toast.makeText(RegistrationActivity.this, "Pin is a required field!...", Toast.LENGTH_LONG).show();
         }
 
         else if (textInputEditText_confirm_pin.getText().toString().trim().equalsIgnoreCase("") &&
                 !textInputEditText_confirm_pin.getText().toString().trim().equals(textInputEditText_pin.getText().toString().trim()))
         {
             textInputEditText_confirm_pin.setError("Your Pin must match and must be at least 5 characters in length");  //Displays a  warning about password not matching
+            Toast.makeText(RegistrationActivity.this, "Password does not match!...", Toast.LENGTH_LONG).show();
         }
 
         else if(textInputEditText_full_name.getText().toString().trim().equalsIgnoreCase("")
@@ -200,28 +161,15 @@ public class RegistrationActivity extends AppCompatActivity {
         }
         else
         {
-
-            textInputEditText_student_id.setError(null);
-            textInputEditText_pin.setError(null);
-            textInputEditText_confirm_pin.setError(null);
-
-            //defines the type of operation to be performed
-            String type = "register";
-
-            //Creates an object of the InputValidationVoterRegister Class in this context
-            InputValidationVoterRegister inputValidationVoterRegister = new InputValidationVoterRegister(this);
-            //Executes the object of the InputValidationVoterRegister Class using the String variables
-            inputValidationVoterRegister.execute(type, str_full_name, str_level, str_gender, str_programme,
-                    str_student_id, str_pin, str_confirm_pin);
-
-            clearTextFields();      //call to the clearTextFields
-        }*/
-
-    //}
+            onRegisterVoter();
+        }
+    }
 
     //Adds the voter details to the database
     public void onRegisterVoter(){
-        progressDialog.show();
+        progressDialog = ProgressDialog.show(RegistrationActivity.this, "Signing Up...", null, true, true);
+
+        progressDialog.show(); //displays the progress dialog
 
         //get the values from the fields and sets them to that of the values in the database
         voter.setFull_name(textInputEditText_full_name.getText().toString().trim());
@@ -237,12 +185,27 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
-                    Toast.makeText(RegistrationActivity.this, " You have Successfully Signed...", Toast.LENGTH_LONG).show();
+                    final Timer timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        public void run() {
+                            progressDialog.dismiss();    //dismisses the alertDialog
+                            timer.cancel();     //this will cancel the timer of the system
+                        }
+                    }, 4000);   // the timer will count 4 seconds....
                     clearTextFields();
+                    Toast.makeText(RegistrationActivity.this, " You have Successfully Signed Up...", Toast.LENGTH_LONG).show();
                 }
                 else
                 {
-                    Toast.makeText(RegistrationActivity.this, "Cannot connect to database, Please try again...", Toast.LENGTH_LONG).show();
+                    final Timer timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        public void run() {
+                            progressDialog.dismiss();    //dismisses the alertDialog
+                            timer.cancel();     //this will cancel the timer of the system
+                        }
+                    }, 4000);   // the timer will count 4 seconds....
+                    clearTextFields();
+                    Toast.makeText(RegistrationActivity.this, "Cannot connect to database, Please try again...!", Toast.LENGTH_LONG).show();
                 }
             }
         });

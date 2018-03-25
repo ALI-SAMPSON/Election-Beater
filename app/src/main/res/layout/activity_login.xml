@@ -20,7 +20,7 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="80dp"
             android:src="@mipmap/logo"/>
 
         <!--TextInputLayout for Student ID-->
@@ -65,7 +65,8 @@
                 android:hint="@string/hint_pin"
                 android:textColor="@color/colorText"
                 android:textColorHint="@color/colorText"
-                android:inputType="textPassword"
+                android:inputType="numberPassword"
+                android:maxLength="5"
                 android:maxLines="1"/>
         </android.support.design.widget.TextInputLayout>
 
