@@ -82,29 +82,41 @@ public class LoginActivity extends AppCompatActivity {
 
         progressDialog = ProgressDialog.show(LoginActivity.this, "Logging Up...", null, true, true);
 
-        try{
+
             voterRef.child(myStdID).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    Voter voter = dataSnapshot.getValue(Voter.class);
-                    if(myPin.equals(voter.getPin())){
+                    if (dataSnapshot.exists()) {
+                        Voter voter = dataSnapshot.getValue(Voter.class);
+                        if (myPin.equals(voter.getPin())) {
+                            final Timer timer = new Timer();
+                            timer.schedule(new TimerTask() {
+                                public void run() {
+                                    progressDialog.dismiss();    //dismisses the alertDialog
+                                    timer.cancel();     //this will cancel the timer of the system
+                                }
+                            }, 5000);   // the timer will count 5 seconds....
+                            clearTextFields();
+                            Toast.makeText(LoginActivity.this, "You have Successfully Logged In...", Toast.LENGTH_LONG).show();
+                            Intent intentLogin = new Intent(LoginActivity.this, AfterLoginActivity.class);
+                            startActivity(intentLogin);
+
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Incorrect Student ID or Pin...", Toast.LENGTH_LONG).show();
+                        }
+
+                    } else {
                         final Timer timer = new Timer();
                         timer.schedule(new TimerTask() {
                             public void run() {
                                 progressDialog.dismiss();    //dismisses the alertDialog
                                 timer.cancel();     //this will cancel the timer of the system
                             }
-                        }, 4000);   // the timer will count 4 seconds....
+                        }, 3000);   // the timer will count 3 seconds....
                         clearTextFields();
-                        Toast.makeText(LoginActivity.this,"You have Successfully Logged In...", Toast.LENGTH_LONG).show();
-                        Intent intentLogin = new Intent(LoginActivity.this, AfterLoginActivity.class);
-                        startActivity(intentLogin);
+                            Toast.makeText(LoginActivity.this, "Student does not exist in database!!", Toast.LENGTH_LONG).show();
+                    }
 
-                    }
-                    else
-                    {
-                        Toast.makeText(LoginActivity.this,"Incorrect Student ID or Pin...", Toast.LENGTH_LONG).show();
-                    }
                 }
 
                 @Override
@@ -112,11 +124,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, databaseError.toException().toString(), Toast.LENGTH_LONG).show();
                 }
             });
-        }
-        catch (Exception ex){
-            Toast.makeText(LoginActivity.this, "Student does not exist in database!!", Toast.LENGTH_LONG).show();
-            ex.printStackTrace();
-        }
+
     }
 
     //clears text fields
