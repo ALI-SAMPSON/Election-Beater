@@ -4,7 +4,6 @@
              <!--String values for Candidate Registration-->
     <!--String Values to populate in the spinner View for Candidate's Level-->
     <string-array name="candidate_level">
-        <item>None</item>
         <item>200</item>
         <item>300</item>
         <item>400</item>
@@ -18,12 +17,12 @@
 
     <!--String Values to populate in the spinner View for Candidate's Portfolio-->
     <string-array name="candidate_portfolio">
-        <item>None</item>
         <item>President</item>
         <item>Vice President</item>
         <item>Secretary</item>
         <item>Financial Secretary</item>
         <item>Organiser Secretary</item>
+        <item>General Secretary</item>
         <item>PRO</item>
     </string-array>
 

@@ -232,7 +232,7 @@
                 android:inputType="numberPassword"
                 android:maxLines="1"
                 android:maxLength="5"
-                android:textColor="@color/black"/>
+                android:textColor="@color/colorText"/>
         </android.support.design.widget.TextInputLayout>
 
         <!--Button for Sign Up-->

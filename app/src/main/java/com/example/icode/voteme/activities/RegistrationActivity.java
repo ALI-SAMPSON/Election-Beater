@@ -41,9 +41,6 @@ public class RegistrationActivity extends AppCompatActivity {
     private TextInputEditText textInputEditText_pin;
     private TextInputEditText textInputEditText_confirm_pin;
 
-    private ProgressBar progressBar;
-    private FirebaseAuth auth;
-
     FirebaseDatabase database;
     DatabaseReference voterRef;
     Voter voter;
@@ -73,9 +70,6 @@ public class RegistrationActivity extends AppCompatActivity {
         //actionBar.setDisplayShowHomeEnabled(true);
 
         //actionBar.setLogo(R.drawable.ic_arrow_back_white_24dp);
-
-        //Get ProgressBar instance
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         textInputEditText_full_name = (TextInputEditText) findViewById(R.id.textInputEditTextFullName);
         textInputEditText_student_id = (TextInputEditText) findViewById(R.id.textInputEditTextStudentID);
@@ -114,23 +108,11 @@ public class RegistrationActivity extends AppCompatActivity {
     //method for registering a new voter
     public void OnRegisterButtonClick(View view) {
 
-       // progressDialog = ProgressDialog.show(RegistrationActivity.this, "Signing Up...", null, true, true);
-
-        //getting text from the textInputEditText field and Spinner View
-        final String str_full_name = textInputEditText_full_name.getText().toString().trim();
-        final String str_student_id = textInputEditText_student_id.getText().toString().trim();
-        final String str_pin = textInputEditText_pin.getText().toString().trim();
-        final String str_confirm_pin = textInputEditText_confirm_pin.getText().toString().trim();
-
-        final String str_level = spinnerLevel.getSelectedItem().toString().trim();
-        final String str_gender = spinnerGender.getSelectedItem().toString().trim();
-        final String str_programme = spinnerProgramme.getSelectedItem().toString().trim();
-
         String error_fill_text = "This field cannot be left blank";
 
 
         /* InputValidation for the various textFields that is, tests to see if the
-         * textInputEditTextFields are fill with relevant data
+         * textInputEditTextFields are filled or not
         */
 
         if (textInputEditText_student_id.getText().toString().trim().equalsIgnoreCase(""))
@@ -191,7 +173,7 @@ public class RegistrationActivity extends AppCompatActivity {
                             progressDialog.dismiss();    //dismisses the alertDialog
                             timer.cancel();     //this will cancel the timer of the system
                         }
-                    }, 4000);   // the timer will count 4 seconds....
+                    }, 4000);   // the time r will count 4 seconds....
                     clearTextFields();
                     Toast.makeText(RegistrationActivity.this, " You have Successfully Signed Up...", Toast.LENGTH_LONG).show();
                 }

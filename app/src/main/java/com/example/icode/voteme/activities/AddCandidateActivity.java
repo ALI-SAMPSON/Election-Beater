@@ -1,9 +1,11 @@
 package com.example.icode.voteme.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,9 +20,17 @@ import android.widget.Toast;
 import com.example.icode.voteme.R;
 import com.example.icode.voteme.inputValidation.InputValidationAddCandidate;
 import com.example.icode.voteme.inputValidation.InputValidationVoterRegister;
+import com.example.icode.voteme.models.Candidate;
+import com.example.icode.voteme.models.Voter;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class AddCandidateActivity extends AppCompatActivity {
 
@@ -54,6 +64,12 @@ public class AddCandidateActivity extends AppCompatActivity {
 
     //identifies the intent on which the operation will be done
     private final int REQUEST_IMAGE_SELECT = 1;
+
+    FirebaseDatabase database;
+    DatabaseReference voterRef;
+    Candidate candidate;
+
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,19 +141,13 @@ public class AddCandidateActivity extends AppCompatActivity {
 
     //Registers candidate when clicked...
     public void onRegisterCandidate(View view){
-        //getting text from the textInputEditText field and Spinner View
-        String full_name = textInputEditText_full_name.getText().toString().trim();
-        String level = spinnerLevel.getSelectedItem().toString().trim();
-        String programme = spinnerProgramme.getSelectedItem().toString().trim();
-        String portfolio = spinnerPortfolio.getSelectedItem().toString().trim();
-        String candidate_id = textInputEditText_candidate_id.getText().toString().trim();
-
-        String candidate_picture = imageToString(bitmap);
-
 
         String error_fill_text = "This field cannot be left blank";
 
-        //InputValidation for the various textFields that is, tests to see if the textInputEditTextFields are fill with relevant data
+        /* InputValidation for the various textFields that is, tests to see if the
+         * textInputEditTextFields are filled or not
+        */
+
         if (textInputEditText_full_name.getText().toString().trim().equalsIgnoreCase(""))
         {
             textInputEditText_full_name.setError(error_fill_text);
@@ -159,16 +169,55 @@ public class AddCandidateActivity extends AppCompatActivity {
             textInputEditText_full_name.setError(null);
             textInputEditText_candidate_id.setError(null);
 
-            String type = "register_candidate";     //defines the type of operation to be performed
+            onRegisterCandidate();
 
-            //Creates an object of the InputValidationAddCandidate Class in this context
-            InputValidationAddCandidate inputValidationAddCandidate = new InputValidationAddCandidate(this);
-            //Executes the object of the InputValidationVoterRegister Class using the String variables
-            inputValidationAddCandidate.execute(type, full_name, level, programme, portfolio, candidate_id,candidate_picture);
-
-            clearTextFields(); //call to the clearTextFields
-            clearSpinnerValues();
         }
+    }
+
+    //Adds the voter details to the database
+    public void onRegisterCandidate(){
+        progressDialog = ProgressDialog.show(AddCandidateActivity.this, "Signing Up...", null, true, true);
+
+        progressDialog.show(); //displays the progress dialog
+
+        //get the values from the fields and sets them to that of the values in the database
+        candidate.setFull_name(textInputEditText_full_name.getText().toString().trim());
+        candidate.setLevel(spinnerLevel.getSelectedItem().toString().trim());
+        candidate.setProgramme(spinnerProgramme.getSelectedItem().toString().trim());
+        candidate.setProgramme(spinnerProgramme.getSelectedItem().toString().trim());
+        candidate.setCandidate_id(textInputEditText_candidate_id.getText().toString().trim());
+        //candidate.setCandidate_image(imageView_Candidate.setImageBitmap(bitmap).);
+
+
+        voterRef.child(candidate.getCandidate_id()).setValue(candidate).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    final Timer timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        public void run() {
+                            progressDialog.dismiss();    //dismisses the alertDialog
+                            timer.cancel();     //this will cancel the timer of the system
+                        }
+                    }, 4000);   // the time r will count 4 seconds....
+                    clearTextFields();
+                    clearSpinnerValues();
+                    Toast.makeText(AddCandidateActivity.this, " You have Successfully Signed Up... ", Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    final Timer timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        public void run() {
+                            progressDialog.dismiss();    //dismisses the alertDialog
+                            timer.cancel();     //this will cancel the timer of the system
+                        }
+                    }, 4000);   // the timer will count 4 seconds....
+                    clearTextFields(); //call to the clearTextFields
+                    Toast.makeText(AddCandidateActivity.this, " Cannot connect to database, Please try again...! ", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     //Resets values in the spinner views

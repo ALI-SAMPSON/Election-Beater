@@ -80,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
         final String myStdID = textInputEditTextStudentId.getText().toString();
         final String myPin = textInputEditTextPin.getText().toString();
 
-        progressDialog = ProgressDialog.show(LoginActivity.this, "Logging Up...", null, true, true);
+        progressDialog = ProgressDialog.show(LoginActivity.this, "Logging In...", null, true, true);
 
 
             voterRef.child(myStdID).addValueEventListener(new ValueEventListener() {
