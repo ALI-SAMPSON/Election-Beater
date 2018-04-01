@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -54,22 +55,18 @@ public class AddCandidateActivity extends AppCompatActivity {
     AppCompatSpinner spinnerPortfolio;
     ArrayAdapter<CharSequence> adapterPortfolio;
 
-    //An instance of the Button View Class
-    private Button buttonSelectImage;
 
     //An instance of the Button View Class
     private Button buttonRegister;
 
-    //An instance of the ImageView View Class
-    private ImageView imageView_Candidate;
-
-    private Bitmap bitmap;
+    //An instance of the ImageButton View Class
+    private ImageButton image;
 
     //identifies the intent on which the operation will be done
-    private final int REQUEST_IMAGE_SELECT = 1;
+    private final int Gallery_Intent = 1;
 
     FirebaseDatabase database;
-    DatabaseReference voterRef;
+    DatabaseReference candidateRef;
     Candidate candidate;
 
     private ProgressDialog progressDialog;
@@ -111,46 +108,14 @@ public class AddCandidateActivity extends AppCompatActivity {
         adapterPortfolio.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerPortfolio.setAdapter(adapterPortfolio);
 
-        buttonSelectImage = (Button)findViewById(R.id.buttonSelectImage);
         buttonRegister = (Button)findViewById(R.id.buttonRegister);
-        imageView_Candidate = (ImageView)findViewById(R.id.imageView);
+        image = (ImageButton)findViewById(R.id.image);
 
-    }
+        database = FirebaseDatabase.getInstance();
+        candidateRef = database.getReference("Candidate");
+        candidate = new Candidate();
 
-    //select picture from gallery
-    public void onSelectPicture(View view){
-        selectPicture();
-    }
 
-    //method to handle the selection of picture from gallery
-    private void selectPicture(){
-        Intent intentPicture = new Intent();
-        intentPicture.setType("images/*");
-        intentPicture.setAction(intentPicture.ACTION_GET_CONTENT);
-        startActivityForResult(intentPicture, REQUEST_IMAGE_SELECT);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == REQUEST_IMAGE_SELECT && resultCode == RESULT_OK && data!=null){
-            Uri path = data.getData();
-            try {
-                bitmap  = MediaStore.Images.Media.getBitmap(getContentResolver(),path);  //get Bitmap image from gallery
-                imageView_Candidate.setImageBitmap(bitmap);
-                imageView_Candidate.setVisibility(View.VISIBLE );
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    //Converts image into string
-    private String imageToString(Bitmap bitmap){
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
-        byte[] imgBytes = byteArrayOutputStream.toByteArray();
-        return Base64.encodeToString(imgBytes,Base64.DEFAULT);
     }
 
     //Registers candidate when clicked...
@@ -188,6 +153,24 @@ public class AddCandidateActivity extends AppCompatActivity {
         }
     }
 
+    //method to handle the Onclick ImageButton View
+    public void onSelectImage(View view){
+        //get the intent of the gallery of the phone
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent, Gallery_Intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == Gallery_Intent && resultCode == RESULT_OK){
+            Uri uri = data.getData();
+            image.setImageURI(uri);
+        }
+    }
+
     //Adds the voter details to the database
     public void onRegisterCandidate(){
         progressDialog = ProgressDialog.show(AddCandidateActivity.this, "Signing Up...", null, true, true);
@@ -200,10 +183,11 @@ public class AddCandidateActivity extends AppCompatActivity {
         candidate.setProgramme(spinnerProgramme.getSelectedItem().toString().trim());
         candidate.setProgramme(spinnerProgramme.getSelectedItem().toString().trim());
         candidate.setCandidate_id(textInputEditText_candidate_id.getText().toString().trim());
+       // candidate.setCandidate_image(imagePath.toString());
         //candidate.setCandidate_image(imageView_Candidate.setImageBitmap(bitmap).);
 
 
-        voterRef.child(candidate.getCandidate_id()).setValue(candidate).addOnCompleteListener(new OnCompleteListener<Void>() {
+        candidateRef.child(candidate.getCandidate_id()).setValue(candidate).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
