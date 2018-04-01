@@ -80,8 +80,8 @@ public class LoginActivity extends AppCompatActivity {
         final String myStdID = textInputEditTextStudentId.getText().toString();
         final String myPin = textInputEditTextPin.getText().toString();
 
+        //displays the progressDialog with a title when logging voter in
         progressDialog = ProgressDialog.show(LoginActivity.this, "Logging In...", null, true, true);
-
 
             voterRef.child(myStdID).addValueEventListener(new ValueEventListener() {
                 @Override
@@ -98,8 +98,8 @@ public class LoginActivity extends AppCompatActivity {
                             }, 5000);   // the timer will count 5 seconds....
                             clearTextFields();
                             Toast.makeText(LoginActivity.this, "You have Successfully Logged In...", Toast.LENGTH_LONG).show();
-                            Intent intentLogin = new Intent(LoginActivity.this, AfterLoginActivity.class);
-                            startActivity(intentLogin);
+                            Intent intentCastVote = new Intent(LoginActivity.this, CastVoteActivity.class);
+                            startActivity(intentCastVote);
 
                         } else {
                             Toast.makeText(LoginActivity.this, "Incorrect Student ID or Pin...", Toast.LENGTH_LONG).show();

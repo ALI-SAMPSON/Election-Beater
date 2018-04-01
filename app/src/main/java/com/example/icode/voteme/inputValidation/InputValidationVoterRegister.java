@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-import com.example.icode.voteme.activities.AfterLoginActivity;
+import com.example.icode.voteme.activities.CastVoteActivity;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -124,7 +124,7 @@ public class InputValidationVoterRegister extends AsyncTask<String,Void,String> 
 
            Toast.makeText(context, result, Toast.LENGTH_LONG).show();
                 //Instance of the Intent Class
-            Intent myIntent = new Intent(context, AfterLoginActivity.class);
+            Intent myIntent = new Intent(context, CastVoteActivity.class);
           //  myIntent.putExtra("user", full_name.getText().toString());
             context.startActivity(myIntent);    //starts the intent in this context;
       // }

@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-import com.example.icode.voteme.activities.AfterLoginActivity;
+import com.example.icode.voteme.activities.CastVoteActivity;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -118,7 +118,7 @@ public class InputValidationVoterLogin extends AsyncTask<String,Void,String> {
 
         if(result.equalsIgnoreCase("Successfully Logged In"))
         {
-            Intent myIntent = new Intent(context, AfterLoginActivity.class);
+            Intent myIntent = new Intent(context, CastVoteActivity.class);
             //myIntent.putExtra("user", student_id);
             context.startActivity(myIntent);    //starts the intent in this context;
         }

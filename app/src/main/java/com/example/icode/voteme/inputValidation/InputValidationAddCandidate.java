@@ -2,11 +2,8 @@ package com.example.icode.voteme.inputValidation;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
-
-import com.example.icode.voteme.activities.AfterLoginActivity;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

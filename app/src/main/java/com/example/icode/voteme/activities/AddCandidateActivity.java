@@ -10,7 +10,10 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatSpinner;
+import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -75,6 +78,17 @@ public class AddCandidateActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_candidate);
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Vote Starts");
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_left_black);
+
+        //navigates the admin back to the panel
+       if(getSupportActionBar() != null){
+           getSupportActionBar().setDisplayShowHomeEnabled(true);
+           getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+       }
+        // toolbar.setLogo(R.mipmap.first_icon);
 
         textInputEditText_full_name = (TextInputEditText)findViewById(R.id.textInputEditTextFullName);
         textInputEditText_candidate_id = (TextInputEditText)findViewById(R.id.textInputEditTextCandidateID);
@@ -202,7 +216,7 @@ public class AddCandidateActivity extends AppCompatActivity {
                     }, 4000);   // the time r will count 4 seconds....
                     clearTextFields();
                     clearSpinnerValues();
-                    Toast.makeText(AddCandidateActivity.this, " You have Successfully Signed Up... ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddCandidateActivity.this, " You have Successfully Added a New Candidate... ", Toast.LENGTH_LONG).show();
                 }
                 else
                 {
@@ -238,12 +252,44 @@ public class AddCandidateActivity extends AppCompatActivity {
         spinnerPortfolio.setAdapter(adapterLevel);
     }
 
-         //Method for Clearing all textfields after Login Button is Clicked
+    //Method for Clearing all textfields after Login Button is Clicked
     public void clearTextFields(){
             //Clears all text from the EditText
         textInputEditText_full_name.setText("");
         textInputEditText_candidate_id.setText("");
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        String msg = "";
+        switch (item.getItemId()) {
+            case R.id.home:
+                Intent intentBack = new Intent(AddCandidateActivity.this, AdminPanel.class);
+                startActivity(intentBack);
+                break;
+            case R.id.good_day:
+                msg = "Good day Admin!";
+                Toast.makeText(AddCandidateActivity.this, msg, Toast.LENGTH_LONG).show();
+                break;
+            case R.id.info:
+                //open info page or activity
+                Intent intent_info = new Intent(AddCandidateActivity.this, App_Info.class);
+                startActivity(intent_info);
+                break;
+            //logs the voter out of the system
+            default:
+                break;
+
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 }

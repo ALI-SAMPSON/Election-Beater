@@ -28,6 +28,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             actionBar.hide();
         }
 
+       /*
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -36,6 +37,25 @@ public class SplashScreenActivity extends AppCompatActivity {
                 startActivity(startIntent);
                 SplashScreenActivity.this.finish(); //this prevents the app from going back to the splash screen
             }
-        }, SPLASH_SCREEN_DISPLAY_LENGTH);
+        }, SPLASH_SCREEN_DISPLAY_LENGTH);*/
+
+        Thread timer = new Thread(){
+            @Override
+            public void run() {
+                try{
+                    sleep(SPLASH_SCREEN_DISPLAY_LENGTH);
+                    //Creates and start the intent of the next activity
+                    Intent startIntent = new Intent(SplashScreenActivity.this,SliderView.class);
+                    startActivity(startIntent);
+                    finish(); //this prevents the app from going back to the splash screen
+                    super.run();
+                }
+                catch (InterruptedException e){
+                    e.printStackTrace();
+                }
+
+            }
+        };
+            timer.start();
     }
 }

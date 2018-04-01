@@ -12,6 +12,11 @@
     <string name="hint_confirm_pin">Confirm Pin</string>
     <string name="hint_portfolio">Portfolio</string>
     <string name="add_candidate">Register Candidate</string>
+    <string name="admin_panel">ADMINISTRATOR PANEL</string>
+    <string name="open_vote">OPEN VOTING PROCESS</string>
+    <string name="close_vote">CLOSE VOTING PROCESS</string>
+    <string name="view_results">VIEW RESULTS</string>
+    <string name="publish_results">PUBLISH RESULTS</string>
     <string name="text_level">Level:</string>
     <string name="text_gender">Gender:</string>
     <string name="text_programme">Programme:</string>
