@@ -27,9 +27,14 @@ import com.example.icode.voteme.inputValidation.InputValidationVoterRegister;
 import com.example.icode.voteme.models.Candidate;
 import com.example.icode.voteme.models.Voter;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -68,6 +73,8 @@ public class AddCandidateActivity extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference candidateRef;
     Candidate candidate;
+
+    StorageReference imagePath;
 
     private ProgressDialog progressDialog;
 
@@ -168,12 +175,24 @@ public class AddCandidateActivity extends AppCompatActivity {
         if(requestCode == Gallery_Intent && resultCode == RESULT_OK){
             Uri uri = data.getData();
             image.setImageURI(uri);
+            imagePath = FirebaseStorage.getInstance().getReference().child("Profile").child(uri.getLastPathSegment());
+            imagePath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(AddCandidateActivity.this, "Image Uploaded Successfully", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(AddCandidateActivity.this, "Image not Uploaded...Please Check the Image type", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 
     //Adds the voter details to the database
     public void onRegisterCandidate(){
-        progressDialog = ProgressDialog.show(AddCandidateActivity.this, "Signing Up...", null, true, true);
+        progressDialog = ProgressDialog.show(AddCandidateActivity.this, "Registering Candidate...", null, true, true);
 
         progressDialog.show(); //displays the progress dialog
 
@@ -183,8 +202,7 @@ public class AddCandidateActivity extends AppCompatActivity {
         candidate.setProgramme(spinnerProgramme.getSelectedItem().toString().trim());
         candidate.setProgramme(spinnerProgramme.getSelectedItem().toString().trim());
         candidate.setCandidate_id(textInputEditText_candidate_id.getText().toString().trim());
-       // candidate.setCandidate_image(imagePath.toString());
-        //candidate.setCandidate_image(imageView_Candidate.setImageBitmap(bitmap).);
+        candidate.setCandidate_image(imagePath.toString());
 
 
         candidateRef.child(candidate.getCandidate_id()).setValue(candidate).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -200,6 +218,7 @@ public class AddCandidateActivity extends AppCompatActivity {
                     }, 4000);   // the time r will count 4 seconds....
                     clearTextFields();
                     clearSpinnerValues();
+                    candidateRef.child("001");
                     Toast.makeText(AddCandidateActivity.this, " You have Successfully Added a New Candidate... ", Toast.LENGTH_LONG).show();
                 }
                 else
