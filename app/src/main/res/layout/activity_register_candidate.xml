@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/relativeLayout"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_register_candidate"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient_background"
@@ -11,7 +10,8 @@
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     android:paddingTop="0dp"
-    tools:context=".activities.AddCandidateActivty">
+    tools:context="com.example.icode.voteme.activities.RegisterCandidateActivity">
+
 
     <!--View group for Toolbar-->
     <android.support.v7.widget.Toolbar
@@ -58,18 +58,18 @@
                 android:layout_marginTop="4dp"/>
 
             <!--ImageButton to select candidate Picture from gallery-->
-        <ImageButton
-            android:layout_width="140dp"
-            android:layout_height="140dp"
-            android:minHeight="130dp"
-            android:minWidth="130dp"
-            android:layout_weight="0"
-            android:layout_marginTop="0dp"
-            app:srcCompat="@drawable/icons8_add_image"
-            android:id="@+id/image"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/circular_image_view"
-            android:onClick="onSelectImage"/>
+            <ImageButton
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:minHeight="130dp"
+                android:minWidth="130dp"
+                android:layout_weight="0"
+                android:layout_marginTop="0dp"
+                app:srcCompat="@drawable/icons8_add_image"
+                android:id="@+id/image"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/circular_image_view"
+                android:onClick="onSelectImage"/>
 
         </LinearLayout>
 
@@ -212,5 +212,6 @@
             android:onClick="onRegisterCandidate"/>
 
     </LinearLayout>
+
 
 </RelativeLayout>

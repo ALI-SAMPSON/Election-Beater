@@ -2,30 +2,23 @@ package com.example.icode.voteme.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.icode.voteme.R;
-import com.example.icode.voteme.inputValidation.InputValidationAddCandidate;
-import com.example.icode.voteme.inputValidation.InputValidationVoterRegister;
 import com.example.icode.voteme.models.Candidate;
-import com.example.icode.voteme.models.Voter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -36,14 +29,12 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class AddCandidateActivity extends AppCompatActivity {
+public class RegisterCandidateActivity extends AppCompatActivity {
 
-        //Instance variables for the TextFields declared in the xml file
+    //Instance variables for the TextFields declared in the xml file
     TextInputEditText textInputEditText_full_name;
     TextInputEditText textInputEditText_candidate_id;
 
@@ -81,17 +72,17 @@ public class AddCandidateActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_candidate);
+        setContentView(R.layout.activity_register_candidate);
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Vote Starts");
         toolbar.setNavigationIcon(R.drawable.ic_arrow_left_black);
 
         //navigates the admin back to the panel
-       if(getSupportActionBar() != null){
-           getSupportActionBar().setDisplayShowHomeEnabled(true);
-           getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-       }
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         // toolbar.setLogo(R.mipmap.first_icon);
 
         textInputEditText_full_name = (TextInputEditText)findViewById(R.id.textInputEditTextFullName);
@@ -147,7 +138,7 @@ public class AddCandidateActivity extends AppCompatActivity {
         else if(textInputEditText_full_name.getText().toString().trim().equalsIgnoreCase("")
                 && textInputEditText_candidate_id.getText().toString().trim().equalsIgnoreCase(""))
         {
-            Toast.makeText(AddCandidateActivity.this, "Both fields are required!...Please fill them to proceed", Toast.LENGTH_LONG).show();
+            Toast.makeText(RegisterCandidateActivity.this, "Both fields are required!...Please fill them to proceed", Toast.LENGTH_LONG).show();
         }
 
         else
@@ -179,12 +170,12 @@ public class AddCandidateActivity extends AppCompatActivity {
             imagePath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Toast.makeText(AddCandidateActivity.this, "Image Uploaded Successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterCandidateActivity.this, "Image Uploaded Successfully", Toast.LENGTH_SHORT).show();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(AddCandidateActivity.this, "Image not Uploaded...Please Check the Image type", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterCandidateActivity.this, "Image not Uploaded...Please Check the Image type", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -192,7 +183,7 @@ public class AddCandidateActivity extends AppCompatActivity {
 
     //Adds the voter details to the database
     public void onRegisterCandidate(){
-        progressDialog = ProgressDialog.show(AddCandidateActivity.this, "Registering Candidate...", null, true, true);
+        progressDialog = ProgressDialog.show(RegisterCandidateActivity.this, "Registering Candidate...", null, true, true);
 
         progressDialog.show(); //displays the progress dialog
 
@@ -219,7 +210,7 @@ public class AddCandidateActivity extends AppCompatActivity {
                     clearTextFields();
                     clearSpinnerValues();
                     candidateRef.child("001");
-                    Toast.makeText(AddCandidateActivity.this, " You have Successfully Added a New Candidate... ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(RegisterCandidateActivity.this, " You have Successfully Added a New Candidate... ", Toast.LENGTH_LONG).show();
                 }
                 else
                 {
@@ -231,7 +222,7 @@ public class AddCandidateActivity extends AppCompatActivity {
                         }
                     }, 4000);   // the timer will count 4 seconds....
                     clearTextFields(); //call to the clearTextFields
-                    Toast.makeText(AddCandidateActivity.this, " Cannot connect to database, Please try again...! ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(RegisterCandidateActivity.this, " Cannot connect to database, Please try again...! ", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -257,7 +248,7 @@ public class AddCandidateActivity extends AppCompatActivity {
 
     //Method for Clearing all textfields after Login Button is Clicked
     public void clearTextFields(){
-            //Clears all text from the EditText
+        //Clears all text from the EditText
         textInputEditText_full_name.setText("");
         textInputEditText_candidate_id.setText("");
 
@@ -274,16 +265,16 @@ public class AddCandidateActivity extends AppCompatActivity {
         String msg = "";
         switch (item.getItemId()) {
             case R.id.home:
-                Intent intentBack = new Intent(AddCandidateActivity.this, AdminPanel.class);
+                Intent intentBack = new Intent(RegisterCandidateActivity.this, AdminPanel.class);
                 startActivity(intentBack);
                 break;
             case R.id.good_day:
                 msg = "Good day Admin!";
-                Toast.makeText(AddCandidateActivity.this, msg, Toast.LENGTH_LONG).show();
+                Toast.makeText(RegisterCandidateActivity.this, msg, Toast.LENGTH_LONG).show();
                 break;
             case R.id.info:
                 //open info page or activity
-                Intent intent_info = new Intent(AddCandidateActivity.this, App_Info.class);
+                Intent intent_info = new Intent(RegisterCandidateActivity.this, App_Info.class);
                 startActivity(intent_info);
                 break;
             //logs the voter out of the system
@@ -294,5 +285,6 @@ public class AddCandidateActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 
 }
