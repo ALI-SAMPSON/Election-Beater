@@ -107,6 +107,14 @@ public class AdminLoginActivity extends AppCompatActivity {
                         startActivity(intentPanel);
 
                     } else {
+                        final Timer timer = new Timer();
+                        timer.schedule(new TimerTask() {
+                            public void run() {
+                                progressDialog.dismiss();    //dismisses the alertDialog
+                                timer.cancel();     //this will cancel the timer of the system
+                            }
+                        }, 3000);   // the timer will count 3 seconds....
+                        clearTextFields();
                         Toast.makeText(AdminLoginActivity.this, "Incorrect Admin ID or Pin...", Toast.LENGTH_LONG).show();
                     }
 

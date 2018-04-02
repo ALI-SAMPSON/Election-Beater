@@ -29,7 +29,8 @@
         <activity android:name=".activities.AdminPanel" />
         <activity android:name=".activities.ViewResults" />
         <activity android:name=".activities.CastVoteActivity" />
-        <activity android:name=".activities.RegisterCandidateActivity"></activity>
+        <activity android:name=".activities.RegisterCandidateActivity" />
+        <activity android:name=".activities.App_info_Admin"></activity>
     </application>
 
 </manifest>

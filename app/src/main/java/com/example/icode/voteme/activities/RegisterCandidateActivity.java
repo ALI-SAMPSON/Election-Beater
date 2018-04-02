@@ -75,7 +75,7 @@ public class RegisterCandidateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register_candidate);
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Vote Starts");
+        getSupportActionBar().setTitle("Register Candidate");
         toolbar.setNavigationIcon(R.drawable.ic_arrow_left_black);
 
         //navigates the admin back to the panel
@@ -83,7 +83,6 @@ public class RegisterCandidateActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        // toolbar.setLogo(R.mipmap.first_icon);
 
         textInputEditText_full_name = (TextInputEditText)findViewById(R.id.textInputEditTextFullName);
         textInputEditText_candidate_id = (TextInputEditText)findViewById(R.id.textInputEditTextCandidateID);
@@ -262,11 +261,13 @@ public class RegisterCandidateActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        String msg = "";
+        String msg;
         switch (item.getItemId()) {
-            case R.id.home:
-                Intent intentBack = new Intent(RegisterCandidateActivity.this, AdminPanel.class);
-                startActivity(intentBack);
+            //Home button
+            case android.R.id.home:
+                Intent homeIntent = new Intent(this, AdminPanel.class);
+                homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(homeIntent);
                 break;
             case R.id.good_day:
                 msg = "Good day Admin!";
@@ -277,7 +278,6 @@ public class RegisterCandidateActivity extends AppCompatActivity {
                 Intent intent_info = new Intent(RegisterCandidateActivity.this, App_Info.class);
                 startActivity(intent_info);
                 break;
-            //logs the voter out of the system
             default:
                 break;
 

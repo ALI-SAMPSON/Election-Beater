@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import com.example.icode.voteme.activities.RegisterCandidateActivity;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -117,7 +119,7 @@ public class InputValidationAdminLogin extends AsyncTask<String,Void,String> {
 
         if(result.equalsIgnoreCase("You have Successfully Logged as an Administrator"))
         {
-            Intent myIntent = new Intent(context, AddCandidateActivity.class);
+            Intent myIntent = new Intent(context, RegisterCandidateActivity.class);
             //myIntent.putExtra("user", student_id);
             context.startActivity(myIntent);    //starts the intent in this context;
         }
